@@ -1,0 +1,159 @@
+{
+  "project_info": {
+    "project_number": "65259577246",
+    "firebase_url": "https://asmt-5.firebaseio.com",
+    "project_id": "asmt-5",
+    "storage_bucket": "asmt-5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65259577246:android:cdb31bd65f77264870c08f",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65259577246-dstrq33eqrjcoi52e0n9qnsgn20hdal3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.myapplication",
+            "certificate_hash": "c84b1cbc8423a435e9a1b0200913d245a5c6c016"
+          }
+        },
+        {
+          "client_id": "65259577246-t40qopuljp5g1406m254vtsseh90ag4i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZceFN3AAUbnuzvuBVeK0UwSMV3N8Ty2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65259577246-t40qopuljp5g1406m254vtsseh90ag4i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65259577246:android:c39cd436718b583d70c08f",
+        "android_client_info": {
+          "package_name": "espol.edu.bagtraking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65259577246-87b3g3ovbaqelluu1gs42mi6kcnvfmk0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "espol.edu.bagtraking",
+            "certificate_hash": "c84b1cbc8423a435e9a1b0200913d245a5c6c016"
+          }
+        },
+        {
+          "client_id": "65259577246-t40qopuljp5g1406m254vtsseh90ag4i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZceFN3AAUbnuzvuBVeK0UwSMV3N8Ty2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65259577246-t40qopuljp5g1406m254vtsseh90ag4i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65259577246:android:e7b5bfdb5473548b70c08f",
+        "android_client_info": {
+          "package_name": "espol.edu.comamstgrupo3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65259577246-d7hp2ev4mqd2gkk33efhcn0cd4v1avsk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "espol.edu.comamstgrupo3",
+            "certificate_hash": "c84b1cbc8423a435e9a1b0200913d245a5c6c016"
+          }
+        },
+        {
+          "client_id": "65259577246-t40qopuljp5g1406m254vtsseh90ag4i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZceFN3AAUbnuzvuBVeK0UwSMV3N8Ty2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65259577246-t40qopuljp5g1406m254vtsseh90ag4i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:65259577246:android:3cd45b505929954c70c08f",
+        "android_client_info": {
+          "package_name": "espol.edu.ec.firebasedatalonlat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "65259577246-9l2h4h0pmunji32o5bgn7qg0s5d7p6lk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "espol.edu.ec.firebasedatalonlat",
+            "certificate_hash": "c84b1cbc8423a435e9a1b0200913d245a5c6c016"
+          }
+        },
+        {
+          "client_id": "65259577246-t40qopuljp5g1406m254vtsseh90ag4i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZceFN3AAUbnuzvuBVeK0UwSMV3N8Ty2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "65259577246-t40qopuljp5g1406m254vtsseh90ag4i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
