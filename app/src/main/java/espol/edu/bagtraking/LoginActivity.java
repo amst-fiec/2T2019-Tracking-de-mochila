@@ -98,7 +98,18 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();/* Check if user is signed in (non-null) and update UI accordingly.*/
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
+        if (currentUser!=null){
+            HashMap<String, String> info_user = new HashMap<String, String>();
+            info_user.put("user_name", currentUser.getDisplayName());
+            info_user.put("user_email", currentUser.getEmail());
+            info_user.put("user_photo", String.valueOf(currentUser.getPhotoUrl()));
+            info_user.put("user_id", currentUser.getUid());
+            info_user.put("user_phone", currentUser.getPhoneNumber());
+
+            Intent intent = new Intent(this, OpctionsActivity.class);
+            intent.putExtra("info_user", info_user);
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -145,11 +156,11 @@ public class LoginActivity extends AppCompatActivity {
             info_user.put("user_email", user.getEmail());
             info_user.put("user_photo", String.valueOf(user.getPhotoUrl()));
             info_user.put("user_id", user.getUid());
+            info_user.put("user_phone", user.getPhoneNumber());
 
-            GuardadUsuario(info_user);
 
             finish();
-            Intent intent = new Intent(this, OpctionsActivity.class);
+            Intent intent = new Intent(this, RegisterActivity.class);
             intent.putExtra("info_user", info_user);
             startActivity(intent);
 
