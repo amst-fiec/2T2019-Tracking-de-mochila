@@ -2,6 +2,8 @@ package espol.edu.bagtraking;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,19 +33,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
+
 
 public class LoginActivity extends AppCompatActivity {
-    Button back;
-    TextView register;
-    EditText email;
-    EditText pass;
 
+    private EditText email;
+    EditText pass;
     private FirebaseAuth mAuth;
     static final int GOOGLE_SIGN_IN = 123;
     GoogleSignInClient mGoogleSignInClient;
     DatabaseReference db_reference;
+
+
+    private static final String TAG = "EmailPassword";
+    private HashMap<String, String>  info_user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         Intent intent = getIntent();
         String msg = intent.getStringExtra("msg");
         if(msg != null){
@@ -65,33 +70,20 @@ public class LoginActivity extends AppCompatActivity {
                 cerrarSesion();
             }
         }
+
         db_reference = FirebaseDatabase.getInstance().getReference().child("Aplicacion");
-        leerRegistros();
+
+
+
+
 
     }
-    private void leerRegistros() {
-        db_reference.child("Grupo 3").child("tweets").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    System.out.println(snapshot);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError error) {
-                System.out.println(error.toException());
-            }
-        });
-    }
-    public void GuardadUsuario(HashMap<String, String> info_user){
 
-        DatabaseReference data = db_reference.child("Usuarios").child(info_user.get("user_id"));
-        data.child("user_name").setValue(info_user.get("user_name"));
-        data.child("user_email").setValue(info_user.get("user_email"));
-    }
+
     private void cerrarSesion() {
         mGoogleSignInClient.signOut().addOnCompleteListener(this,
                 task -> updateUI(null));
+        signOut();
     }
 
     @Override
@@ -99,16 +91,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();/* Check if user is signed in (non-null) and update UI accordingly.*/
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser!=null){
-            HashMap<String, String> info_user = new HashMap<String, String>();
-            info_user.put("user_name", currentUser.getDisplayName());
-            info_user.put("user_email", currentUser.getEmail());
-            info_user.put("user_photo", String.valueOf(currentUser.getPhotoUrl()));
-            info_user.put("user_id", currentUser.getUid());
-            info_user.put("user_phone", currentUser.getPhoneNumber());
-
-            Intent intent = new Intent(this, OpctionsActivity.class);
-            intent.putExtra("info_user", info_user);
-            startActivity(intent);
+            getUser(currentUser);
+            StartThread();
         }
     }
 
@@ -160,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             finish();
-            Intent intent = new Intent(this, RegisterActivity.class);
+            Intent intent = new Intent(this, OpctionsActivity.class);
             intent.putExtra("info_user", info_user);
             startActivity(intent);
 
@@ -173,7 +157,14 @@ public class LoginActivity extends AppCompatActivity {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
     }
-
+    public void register(View view) {
+        Intent signInIntent = new Intent(getApplicationContext(),RegisterActivity.class);
+        startActivity(signInIntent);
+    }
+    public void back(View view) {
+        Intent signInIntent = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(signInIntent);
+    }
     public void login(View view) {
         FirebaseUser user = mAuth.getCurrentUser();
         if(user==null){
@@ -182,9 +173,103 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
+
+
     private void signIn(String email, String password) {
+        Log.d(TAG, "signIn:" + email);
+        if (!validateForm()) {
+            return;
+        }
 
+        // [START sign_in_with_email]
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
 
+                            getUser(user);
+                            StartThread();
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+
+                        // [START_EXCLUDE]
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        // [END_EXCLUDE]
+                    }
+                });
+        // [END sign_in_with_email]
     }
 
+    private void signOut() {
+        mAuth.signOut();
+        updateUI(null);
+    }
+    private boolean validateForm() {
+        boolean valid = true;
+
+        String email = this.email.getText().toString();
+        if (TextUtils.isEmpty(email)) {
+            this.email.setError("Required.");
+            valid = false;
+        } else {
+            this.email.setError(null);
+        }
+
+        String password = this.pass.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            pass.setError("Required.");
+            valid = false;
+        } else {
+            pass.setError(null);
+        }
+
+        return valid;
+    }
+    public void getUser(FirebaseUser user){
+        HashMap<String, String> info_user = new HashMap<String, String>();
+        db_reference.child("Usuarios").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                info_user.put("user_name", String.valueOf(dataSnapshot.child("user_name").getValue()));
+                info_user.put("user_email", String.valueOf(dataSnapshot.child("user_email").getValue()));
+                info_user.put("user_photo", String.valueOf(dataSnapshot.child("user_photo").getValue()));
+                info_user.put("user_phone", String.valueOf(dataSnapshot.child("user_phone").getValue()));
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println(databaseError.getMessage());
+            }
+        });
+        this.info_user = info_user;
+    }
+
+    public void StartThread(){
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                while(info_user.isEmpty()){System.out.println(info_user);}
+                Intent intent = new Intent(getApplicationContext(), OpctionsActivity.class);
+                intent.putExtra("info_user", info_user);
+                startActivity(intent);
+            }
+        };
+
+        thread.start();
+    }
 }

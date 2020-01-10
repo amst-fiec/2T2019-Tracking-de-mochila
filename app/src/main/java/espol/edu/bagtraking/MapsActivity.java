@@ -89,7 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
         double lat = Double.parseDouble(value.get("Latitud").toString());
         double lng = Double.parseDouble(value.get("Longitud").toString());
-System.out.println(key);
+        System.out.println(key);
         if(lat!=0 && lng!=0){
             LatLng location = new LatLng(lat, lng);
             if (!mMarkers.containsKey(key)) {

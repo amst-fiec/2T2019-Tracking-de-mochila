@@ -3,4 +3,9 @@
     <string name="grid_layout">GRID LAYOUT</string>
     <string name="todo">TODO</string>
     <string name="title_activity_maps">Map</string>
+    <string name="men_usuario">MENÚ USUARIO</string>
+    <string name="mapa">Mapa</string>
+    <string name="mochilas">Mochilas</string>
+    <string name="bateria">Bateria</string>
+    <string name="ajustes">Ajustes</string>
 </resources>
