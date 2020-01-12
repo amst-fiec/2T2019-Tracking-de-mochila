@@ -5,183 +5,122 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_user"
     android:orientation="vertical"
     tools:context=".Perfil_User">
 
     <LinearLayout
         android:orientation="vertical"
-        android:background="@drawable/bg"
-        android:weightSum="10"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="8"
-            android:padding="14dp">
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/perfil"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:layout_marginTop="60dp"
+                android:src="@drawable/perfil"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/nombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/nombre"
+                android:textColor="@color/colorFondo"
+                android:textSize="25dp"
+                app:layout_constraintEnd_toEndOf="@+id/perfil"
+                app:layout_constraintStart_toStartOf="@+id/perfil"
+                app:layout_constraintTop_toBottomOf="@+id/perfil" />
+
+            <TextView
+                android:id="@+id/correo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/trabajo"
+                android:textColor="@color/colorFondo"
+                android:textSize="16dp"
+                app:layout_constraintEnd_toEndOf="@+id/nombre"
+                app:layout_constraintStart_toStartOf="@+id/nombre"
+                app:layout_constraintTop_toBottomOf="@+id/nombre" />
 
             <Button
-                android:id="@+id/registrar_mochila"
-                android:layout_width="159dp"
-                android:layout_height="42dp"
-                android:layout_marginStart="108dp"
-                android:layout_marginTop="20dp"
+                android:id="@+id/btn_register"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="300dp"
+                android:layout_marginEnd="36dp"
+                android:background="@drawable/ic_add_black_24dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/cerrarsesion"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="85dp"
                 android:background="@drawable/button"
-                android:fontFamily="@font/regular"
-                android:text="Registrar"
-                android:textAllCaps="false"
+                android:text="Salir"
                 android:textColor="@color/white"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.013"
+                android:onClick="cerrarSesion"
+                app:layout_constraintEnd_toStartOf="@+id/perfil"
+                app:layout_constraintHorizontal_bias="0.285"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/nombre_mochila"
-                tools:ignore="MissingConstraints" />
-
-            <EditText
-                android:id="@+id/id_mochila"
-                android:layout_width="217dp"
-                android:layout_height="41dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/input_file"
-                android:ems="10"
-                android:hint="ID"
-                android:inputType="textPersonName"
-                android:textColorHint="@color/gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.532"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView8"
-                tools:ignore="MissingConstraints" />
-
-            <EditText
-                android:id="@+id/nombre_mochila"
-                android:layout_width="344dp"
-                android:layout_height="49dp"
-
-                android:layout_marginTop="8dp"
-                android:background="@drawable/input_file"
-                android:ems="10"
-                android:hint="Nombre"
-                android:inputType="textPersonName"
-                android:textColorHint="@color/gray"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.492"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/id_mochila"
-                tools:ignore="MissingConstraints" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView8"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
 
-                android:layout_marginStart="96dp"
-                android:layout_marginTop="204dp"
-                android:fontFamily="@font/light"
-                android:text="Registrar Mochila"
-                android:textColor="@color/gray"
-                android:textSize="27sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/foto_perfil"
-                tools:ignore="MissingConstraints" />
-
-            <TextView
                 android:id="@+id/textView5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="14dp"
+                android:layout_width="242dp"
+                android:layout_height="54dp"
                 android:fontFamily="@font/light"
                 android:text="Mis Maletas"
-                android:textColor="@color/gray"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
                 android:textSize="40sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.434"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registrar_mochila"
-                tools:ignore="MissingConstraints" />
-
-            <com.mikhaellopez.circularimageview.CircularImageView
-                android:id="@+id/foto_perfil"
-                android:layout_width="104dp"
-                android:layout_height="128dp"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="24dp"
-                android:src="@drawable/carla"
-                app:civ_border_color="#645F5F"
-                app:civ_border_width="4dp"
-                app:civ_shadow="true"
-                app:civ_shadow_color="#645F5F"
-                app:civ_shadow_radius="10"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
-
-            <EditText
-                android:id="@+id/editText"
-                android:layout_width="271dp"
-                android:layout_height="34dp"
-                android:layout_marginStart="105dp"
-                android:layout_marginTop="44dp"
-                android:background="@drawable/perfil_user"
-                android:ems="10"
-                android:fontFamily="@font/bold"
-                android:hint="Nombre"
-                android:inputType="textPersonName"
-                android:textColorHint="@color/negro"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/foto_perfil"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
-
-            <EditText
-                android:id="@+id/correo"
-                android:layout_width="265dp"
-                android:layout_height="36dp"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/style_2"
-                android:ems="10"
-                android:fontFamily="@font/bold"
-                android:hint="Correo"
-                android:inputType="textPersonName"
-                android:textColorHint="@color/negro"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.111"
-                app:layout_constraintStart_toEndOf="@+id/foto_perfil"
-                app:layout_constraintTop_toBottomOf="@+id/editText"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteY="371dp" />
 
             <ListView
                 android:id="@+id/lista_mochila"
-                android:layout_width="170dp"
-                android:layout_height="400dp"
+                android:layout_width="190dp"
+                android:layout_height="200dp"
                 android:layout_marginStart="124dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="20dp"
+                android:textAlignment="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView5"
-                tools:ignore="MissingConstraints" />
+                tools:ignore="MissingConstraints" >
 
-            <Button
-                android:id="@+id/cerrar"
-                android:layout_width="208dp"
-                android:layout_height="20dp"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/button"
-                android:fontFamily="@font/regular"
-                android:onClick="cerrarSesion"
-                android:text="Cerrar Sesion"
-                android:textColor="@color/white"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints" />
+                <ImageView
+                    android:layout_width="421dp"
+                    android:layout_height="1100dp"
+                    android:layout_marginTop="28dp"
+                    android:background="@drawable/bg" />
+            </ListView>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
 </ScrollView>
+

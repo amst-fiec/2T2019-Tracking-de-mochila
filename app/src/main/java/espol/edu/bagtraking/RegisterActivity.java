@@ -152,7 +152,7 @@ public class RegisterActivity extends AppCompatActivity {
         info_user.put("user_iduser",usuario.getText().toString());
         info_user.put("user_name", nombre.getText().toString());
         info_user.put("user_email", correo.getText().toString());
-        info_user.put("user_photo", "https://lh3.googleusercontent.com/a-/AAuE7mAVSZ2MzDeLOi_4giJBGUDneopJKX573bjnIO9ZOQ=s96-c");
+        info_user.put("user_photo", "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png");
         info_user.put("user_id", user.getUid());
         info_user.put("user_phone", telefono.getText().toString());
 

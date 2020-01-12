@@ -10,4 +10,6 @@
     <color name="trans">#D1949B</color>
     <color name="light_gray">#E8EBEC</color>
     <color name="white">#FFFF</color>
+    <color name="colorFuenteClaro">#4236DD</color>
+    <color name="colorFondo">#FFF</color>
 </resources>

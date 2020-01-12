@@ -120,11 +120,13 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
+                            GuardadUsuario(info_user,user);
                             updateUI(user);
+                            Toast.makeText(getApplicationContext(),"Bienvenido"+user.getDisplayName(),Toast.LENGTH_LONG).show();
 
                         } else {
                             System.out.println("error");
-                            updateUI(null);
+                            Toast.makeText(getApplicationContext(),"Usuario o Contraseña Incorrectos!",Toast.LENGTH_LONG).show();
 
                         }
                     }
@@ -149,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
 
         } else {
-            System.out.println("sin registrarse");
+            System.out.println("No Login");
         }
     }
 
@@ -168,7 +170,6 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View view) {
         FirebaseUser user = mAuth.getCurrentUser();
         if(user==null){
-            Toast.makeText(getApplicationContext(),"Inicie Sesion",Toast.LENGTH_LONG).show();
             signIn(email.getText().toString(),pass.getText().toString());
         }
 
@@ -190,14 +191,15 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-
+                            Toast.makeText(getApplicationContext(),"Bienvenido...",Toast.LENGTH_LONG).show();
                             getUser(user);
                             StartThread();
+
 
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                            Toast.makeText(LoginActivity.this, "Usuario o Contraseña Incorrectos!!",
                                     Toast.LENGTH_SHORT).show();
                             updateUI(null);
                         }
@@ -271,5 +273,28 @@ public class LoginActivity extends AppCompatActivity {
         };
 
         thread.start();
+    }
+    private void GuardadUsuario(HashMap<String, String> info_user,FirebaseUser user){
+
+        if(info_user==null){
+            info_user = new HashMap<>();
+        }
+        info_user.put("user_iduser",user.getEmail());
+        info_user.put("user_name", user.getDisplayName());
+        info_user.put("user_email", user.getEmail());
+        info_user.put("user_photo", String.valueOf(user.getPhotoUrl()));
+        info_user.put("user_id", user.getUid());
+        info_user.put("user_phone", user.getPhoneNumber());
+
+        DatabaseReference data = db_reference.child("Usuarios").child(info_user.get("user_id"));
+        data.child("user_name").setValue(info_user.get("user_name"));
+        data.child("user_email").setValue(info_user.get("user_email"));
+        data.child("user_phone").setValue(info_user.get("user_phone"));
+        data.child("user_iduser").setValue(info_user.get("user_iduser"));
+        data.child("user_photo").setValue(info_user.get("user_photo"));
+
+
+
+
     }
 }

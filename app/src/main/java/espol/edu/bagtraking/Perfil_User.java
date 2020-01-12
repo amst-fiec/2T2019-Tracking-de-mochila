@@ -35,11 +35,11 @@ public class Perfil_User extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil__user);
         nombre=new ArrayList<>();
-        editText=findViewById(R.id.nombre_mochila);
-        button=findViewById(R.id.registrar_mochila);
+        //editText=findViewById(R.id.nombre_mochila);
+        //button=findViewById(R.id.registrar_mochila);
         lista=findViewById(R.id.lista_mochila);
         //ADP.notifyDataSetChanged();
-        button.setOnClickListener(new View.OnClickListener() {
+        /*button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!editText.getText().toString().isEmpty())
@@ -59,16 +59,16 @@ public class Perfil_User extends AppCompatActivity {
             }
 
         });
-
+*/
 
 
         Intent intent = getIntent();
         HashMap<String, String> info_user = (HashMap<String, String>)intent.getSerializableExtra("info_user");
 
 
-        txt_name = findViewById(R.id.editText);
+        txt_name = findViewById(R.id.nombre);
         txt_email = findViewById(R.id.correo);
-        imv_photo = findViewById(R.id.foto_perfil);
+        imv_photo = findViewById(R.id.perfil);
 
         //txt_id.setText(info_user.get("user_id"));
         txt_name.setText(info_user.get("user_name"));

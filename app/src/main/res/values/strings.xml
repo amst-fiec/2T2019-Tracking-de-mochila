@@ -8,4 +8,12 @@
     <string name="mochilas">Mochilas</string>
     <string name="bateria">Bateria</string>
     <string name="ajustes">Ajustes</string>
+    <string name="nombre">Wendy Tequilla</string>
+    <string name="trabajo">Developer</string>
+    <string name="seguidores_indicador">12K</string>
+    <string name="completado_indicador">85%</string>
+    <string name="cursos_indicador">25</string>
+    <string name="seguidores">Seguidores</string>
+    <string name="completado">Completado</string>
+    <string name="cursos">Cursos</string>
 </resources>
