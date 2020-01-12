@@ -61,4 +61,10 @@ public class OpctionsActivity extends AppCompatActivity {
         intent.putExtra("info_user", info_user);
         startActivity(intent);
     }
+
+    public void action_ajustes(View view)
+    {
+        Intent intent=new Intent(getApplicationContext(),Device_Bluetooth.class);
+        startActivity(intent);
+    }
 }

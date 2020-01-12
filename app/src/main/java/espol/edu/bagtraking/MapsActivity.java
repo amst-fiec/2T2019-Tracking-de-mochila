@@ -52,7 +52,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     private void subscribeToUpdates() {
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("GPS");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("datos_gps").child("4334BA");
 
         ref.addChildEventListener(new ChildEventListener() {
             @Override

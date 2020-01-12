@@ -3,6 +3,7 @@ package espol.edu.bagtraking;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,6 +59,8 @@ public class Perfil_User extends AppCompatActivity {
             }
 
         });
+
+
 
         Intent intent = getIntent();
         HashMap<String, String> info_user = (HashMap<String, String>)intent.getSerializableExtra("info_user");
