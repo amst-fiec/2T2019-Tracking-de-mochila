@@ -67,4 +67,9 @@ public class OpctionsActivity extends AppCompatActivity {
         Intent intent=new Intent(getApplicationContext(),Device_Bluetooth.class);
         startActivity(intent);
     }
+    public void action_bateria(View view)
+    {
+        Intent intent=new Intent(getApplicationContext(),GraficaActivity.class);
+        startActivity(intent);
+    }
 }

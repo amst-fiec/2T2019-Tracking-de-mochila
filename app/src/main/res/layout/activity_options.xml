@@ -154,11 +154,12 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
-                    android:src="@drawable/bateria"
-                    android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/bateria" />
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/bateria"
+                    android:onClick="action_bateria"
+                    android:src="@drawable/bateria" />
 
                 <TextView
                     android:text="@string/bateria"

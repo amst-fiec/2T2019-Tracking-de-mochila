@@ -47,4 +47,12 @@ dependencies {
     implementation 'com.android.volley:volley:1.1.0'
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+
+    implementation 'com.android.support:recyclerview-v7:28.0.1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.2'
+    implementation 'com.pusher:pusher-java-client:1.4.0'
+    implementation 'com.google.code.gson:gson:2.4'
+
+
 }
