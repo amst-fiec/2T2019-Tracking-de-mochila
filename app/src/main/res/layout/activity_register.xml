@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg"
+        android:background="@drawable/custom_background"
         android:orientation="vertical">
 
         <ProgressBar
@@ -26,41 +26,42 @@
             android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/linearLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"></LinearLayout>
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="16dp"
+                android:layout_width="142dp"
+                android:layout_height="44dp"
+                android:layout_marginTop="100dp"
                 android:fontFamily="@font/bold"
-                android:text="Registrar"
-                android:textColor="@color/white"
-                android:textSize="45dp"
-                app:layout_constraintBottom_toTopOf="@+id/txt_nombre"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.159"
+                android:text="Registra Tu Usuario"
+                android:textColor="@color/negro"
+                android:textSize="30dp"
+                app:layout_constraintEnd_toStartOf="@+id/imageView"
+                app:layout_constraintHorizontal_bias="0.333"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.635" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="157dp"
+                android:layout_height="146dp"
+                android:background="@drawable/logo_transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
 
             <EditText
                 android:id="@+id/txt_nombre"
                 android:layout_width="363dp"
                 android:layout_height="49dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="164dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/input_file"
                 android:drawableLeft="@drawable/ic_person"
                 android:drawablePadding="8dp"
@@ -69,20 +70,15 @@
                 android:inputType="textPersonName"
                 android:textColorHint="@color/gray"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.447"
+                app:layout_constraintHorizontal_bias="0.666"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.887" />
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
             <EditText
                 android:id="@+id/txt_correo"
                 android:layout_width="363dp"
                 android:layout_height="49dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginTop="24dp"
                 android:background="@drawable/input_file"
                 android:drawableLeft="@drawable/ic_mail"
                 android:drawablePadding="8dp"
@@ -90,22 +86,16 @@
                 android:hint="Correo"
                 android:inputType="textEmailAddress"
                 android:textColorHint="@color/gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.347"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_apellido"
-                app:layout_constraintVertical_bias="0.015" />
+                app:layout_constraintEnd_toEndOf="@+id/txt_apellido"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txt_apellido"
+                app:layout_constraintTop_toBottomOf="@+id/txt_apellido" />
 
             <EditText
                 android:id="@+id/txt_telefono"
                 android:layout_width="363dp"
                 android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/input_file"
                 android:drawableLeft="@drawable/ic_phone"
                 android:drawablePadding="8dp"
@@ -113,18 +103,14 @@
                 android:hint="Telefono"
                 android:inputType="phone"
                 android:textColorHint="@color/gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.347"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_correo"
-                app:layout_constraintVertical_bias="0.015" />
+                app:layout_constraintStart_toStartOf="@+id/txt_correo"
+                app:layout_constraintTop_toBottomOf="@+id/txt_correo" />
 
             <EditText
                 android:id="@+id/txt_usuario"
                 android:layout_width="363dp"
                 android:layout_height="49dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/input_file"
                 android:drawableLeft="@drawable/ic_user"
                 android:drawablePadding="8dp"
@@ -132,22 +118,16 @@
                 android:hint="Usuario"
                 android:inputType="textPersonName"
                 android:textColorHint="@color/gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.369"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_telefono"
-                app:layout_constraintVertical_bias="0.015" />
+                app:layout_constraintEnd_toEndOf="@+id/txt_telefono"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txt_telefono"
+                app:layout_constraintTop_toBottomOf="@+id/txt_telefono" />
 
             <EditText
                 android:id="@+id/txt_apellido"
                 android:layout_width="363dp"
                 android:layout_height="49dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/input_file"
                 android:drawableLeft="@drawable/ic_person"
                 android:drawablePadding="8dp"
@@ -155,26 +135,20 @@
                 android:hint="Apellido"
                 android:inputType="textPersonName"
                 android:textColorHint="@color/gray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.347"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_nombre"
-                app:layout_constraintVertical_bias="0.015" />
+                app:layout_constraintEnd_toEndOf="@+id/txt_nombre"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/txt_nombre"
+                app:layout_constraintTop_toBottomOf="@+id/txt_nombre" />
 
             <Button
                 android:id="@+id/anterior"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="28dp"
-                android:layout_marginLeft="28dp"
-                android:layout_marginTop="36dp"
-                android:layout_marginEnd="330dp"
-                android:layout_marginRight="330dp"
+                android:layout_marginBottom="47dp"
                 android:background="@drawable/anterior"
                 app:layout_constraintBottom_toTopOf="@+id/textView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="0.06"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
@@ -183,10 +157,11 @@
                 android:id="@+id/content_pass"
                 android:layout_width="372dp"
                 android:layout_height="65dp"
+                app:layout_constraintEnd_toEndOf="@+id/txt_usuario"
+                app:layout_constraintStart_toStartOf="@+id/txt_usuario"
                 app:layout_constraintTop_toBottomOf="@+id/txt_usuario"
                 app:passwordToggleEnabled="true"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="13dp">
+                tools:ignore="MissingConstraints">
 
                 <EditText
                     android:id="@+id/txt_pass"
@@ -217,10 +192,11 @@
                 android:id="@+id/content_pass2"
                 android:layout_width="382dp"
                 android:layout_height="74dp"
+                app:layout_constraintEnd_toEndOf="@+id/content_pass"
+                app:layout_constraintStart_toStartOf="@+id/content_pass"
                 app:layout_constraintTop_toBottomOf="@+id/content_pass"
                 app:passwordToggleEnabled="true"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="13dp">
+                tools:ignore="MissingConstraints">
 
                 <EditText
                     android:id="@+id/txt_confirmpass"

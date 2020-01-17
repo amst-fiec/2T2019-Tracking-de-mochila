@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="espol.edu.bagtraking">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -17,8 +18,17 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".GraficaActivity"></activity>
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity
+            android:name=".tab_menu"
+            android:label="@string/title_activity_tab_menu"
+            android:theme="@style/NoActionBar"></activity>
+        <activity
+            android:name=".perfil_usuario_1"
+            android:label="@string/title_activity_perfil_usuario_1"
+            android:theme="@style/NoActionBar" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -31,16 +41,17 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".MainActivity" />
+
         <activity android:name=".Device_Bluetooth" />
         <activity android:name=".Controlador_Carga" />
-        <activity android:name=".Perfil_User" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".OpctionsActivity" />
+
+        <activity
+            android:name=".RegisterActivity"
+            />
+        <activity
+            android:name=".LoginActivity"
+             />
+
         <activity android:name=".Splash_Screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

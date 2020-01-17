@@ -145,10 +145,11 @@ public class LoginActivity extends AppCompatActivity {
             info_user.put("user_phone", user.getPhoneNumber());
 
 
-            finish();
-            Intent intent = new Intent(this, OpctionsActivity.class);
+
+            Intent intent = new Intent(this, perfil_usuario_1.class);
             intent.putExtra("info_user", info_user);
             startActivity(intent);
+            finish();
 
         } else {
             System.out.println("No Login");
@@ -163,10 +164,7 @@ public class LoginActivity extends AppCompatActivity {
         Intent signInIntent = new Intent(getApplicationContext(),RegisterActivity.class);
         startActivity(signInIntent);
     }
-    public void back(View view) {
-        Intent signInIntent = new Intent(getApplicationContext(),MainActivity.class);
-        startActivity(signInIntent);
-    }
+
     public void login(View view) {
         FirebaseUser user = mAuth.getCurrentUser();
         if(user==null){
@@ -266,9 +264,10 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 while(info_user.isEmpty()){System.out.println(info_user);}
-                Intent intent = new Intent(getApplicationContext(), OpctionsActivity.class);
+                Intent intent = new Intent(getApplicationContext(), perfil_usuario_1.class);
                 intent.putExtra("info_user", info_user);
                 startActivity(intent);
+                finish();
             }
         };
 

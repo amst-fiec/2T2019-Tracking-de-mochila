@@ -40,12 +40,12 @@ public class OpctionsActivity extends AppCompatActivity {
                     if (cardView.getCardBackgroundColor().getDefaultColor() == -1) {
                         //Change background color
                         cardView.setCardBackgroundColor(Color.parseColor("#FF6F00"));
-                        Toast.makeText(OpctionsActivity.this, "State : True", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(OpctionsActivity.this, "State : True", Toast.LENGTH_SHORT).show();
 
                     } else {
                         //Change background color
                         cardView.setCardBackgroundColor(Color.parseColor("#FFFFFF"));
-                        Toast.makeText(OpctionsActivity.this, "State : False", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(OpctionsActivity.this, "State : False", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -53,13 +53,10 @@ public class OpctionsActivity extends AppCompatActivity {
     }
 
     public void action_map(View view) {
-        Intent intent = new Intent(OpctionsActivity.this,MapsActivity.class);
-        startActivity(intent);
+
     }
     public void action_perfil(View view) {
-        Intent intent = new Intent(OpctionsActivity.this,Perfil_User.class);
-        intent.putExtra("info_user", info_user);
-        startActivity(intent);
+
     }
 
     public void action_ajustes(View view)
@@ -69,7 +66,6 @@ public class OpctionsActivity extends AppCompatActivity {
     }
     public void action_bateria(View view)
     {
-        Intent intent=new Intent(getApplicationContext(),GraficaActivity.class);
-        startActivity(intent);
+
     }
 }

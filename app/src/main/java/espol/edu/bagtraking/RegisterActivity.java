@@ -103,9 +103,10 @@ public class RegisterActivity extends AppCompatActivity {
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             GuardadUsuario(info_user,user);
-                            Intent intent = new Intent(getApplicationContext(), OpctionsActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), perfil_usuario_1.class);
                             intent.putExtra("info_user", info_user);
                             startActivity(intent);
+                            finish();
 
                         } else {
                             // If sign in fails, display a message to the user.
