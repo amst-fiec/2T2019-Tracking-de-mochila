@@ -13,7 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import espol.edu.bagtraking.Device_Bluetooth;
+import espol.edu.bagtraking.Activity.Device_Bluetooth;
+import espol.edu.bagtraking.Activity.perfil_usuario_1;
 import espol.edu.bagtraking.R;
 
 public class ToolsFragment extends Fragment {
@@ -24,6 +25,7 @@ public class ToolsFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         toolsViewModel =
                 ViewModelProviders.of(this).get(ToolsViewModel.class);
+        ((perfil_usuario_1) getActivity()).getSupportActionBar().setTitle("Configuraciones");
         View root = inflater.inflate(R.layout.fragment_tools, container, false);
         final TextView textView = root.findViewById(R.id.text_tools);
         toolsViewModel.getText().observe(this, new Observer<String>() {

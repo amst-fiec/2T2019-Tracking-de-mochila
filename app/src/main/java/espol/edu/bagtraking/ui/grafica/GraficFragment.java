@@ -1,4 +1,4 @@
-package espol.edu.bagtraking.ui.slideshow;
+package espol.edu.bagtraking.ui.grafica;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -6,12 +6,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -32,11 +29,12 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+import espol.edu.bagtraking.Activity.perfil_usuario_1;
 import espol.edu.bagtraking.R;
 
-public class SlideshowFragment extends Fragment {
+public class GraficFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private GraficViewModel graficViewModel;
     private static final String TAG = "ERROR";
     private LineChart mChart;
 
@@ -46,12 +44,13 @@ public class SlideshowFragment extends Fragment {
     private static final float LIMIT_MAX_MEMORY = 1.5f;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+        graficViewModel =
+                ViewModelProviders.of(this).get(GraficViewModel.class);
+        ((perfil_usuario_1) getActivity()).getSupportActionBar().setTitle("Grafica Bateria");
+        View root = inflater.inflate(R.layout.fragment_grafic, container, false);
         /*
         final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(this, new Observer<String>() {
+        graficViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
@@ -154,13 +153,14 @@ public class SlideshowFragment extends Fragment {
             mChart.notifyDataSetChanged();
 
             // limit the number of visible entries
-            mChart.setVisibleXRangeMaximum(15);
+            mChart.setVisibleXRangeMaximum(20);
 
             // move to the latest entry
             mChart.moveViewToX(data.getEntryCount());
         }
     }
     private void subscribeToUpdates() {
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("datos_bateria").child("4334BA");
 
         ref.addChildEventListener(new ChildEventListener() {
@@ -191,6 +191,7 @@ public class SlideshowFragment extends Fragment {
     }
 
     private void setMarker(DataSnapshot dataSnapshot) {
+
         String key = dataSnapshot.getKey();
         HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
         float batery = Float.parseFloat(value.get("Bateria").toString());

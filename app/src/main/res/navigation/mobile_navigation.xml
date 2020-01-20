@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="espol.edu.bagtraking.ui.home.HomeFragment"
+        android:name="espol.edu.bagtraking.ui.map.MapFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -19,14 +19,19 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="espol.edu.bagtraking.ui.slideshow.SlideshowFragment"
+        android:name="espol.edu.bagtraking.ui.grafica.GraficFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_grafic" />
 
     <fragment
         android:id="@+id/nav_tools"
         android:name="espol.edu.bagtraking.ui.tools.ToolsFragment"
         android:label="@string/menu_tools"
         tools:layout="@layout/fragment_tools" />
+    <fragment
+        android:id="@+id/nav_salir"
+        android:name="espol.edu.bagtraking.ui.salir.SalirFragment"
+        android:label="salir_fragment"
+        tools:layout="@layout/salir_fragment" />
 
 </navigation>

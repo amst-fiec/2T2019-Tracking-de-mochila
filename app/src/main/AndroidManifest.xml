@@ -9,6 +9,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
@@ -21,11 +22,11 @@
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".tab_menu"
+            android:name=".Activity.tab_menu"
             android:label="@string/title_activity_tab_menu"
             android:theme="@style/NoActionBar"></activity>
         <activity
-            android:name=".perfil_usuario_1"
+            android:name=".Activity.perfil_usuario_1"
             android:label="@string/title_activity_perfil_usuario_1"
             android:theme="@style/NoActionBar" />
 
@@ -42,17 +43,17 @@
             android:value="@string/google_maps_key" />
 
 
-        <activity android:name=".Device_Bluetooth" />
-        <activity android:name=".Controlador_Carga" />
+        <activity android:name=".Activity.Device_Bluetooth" />
+        <activity android:name=".Activity.Controlador_Carga" />
 
         <activity
-            android:name=".RegisterActivity"
+            android:name=".Activity.RegisterActivity"
             />
         <activity
-            android:name=".LoginActivity"
+            android:name=".Activity.LoginActivity"
              />
 
-        <activity android:name=".Splash_Screen">
+        <activity android:name=".Activity.Splash_Screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

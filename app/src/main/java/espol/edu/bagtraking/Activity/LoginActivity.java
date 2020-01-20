@@ -1,14 +1,11 @@
-package espol.edu.bagtraking;
+package espol.edu.bagtraking.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +31,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
+import espol.edu.bagtraking.R;
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -55,24 +54,26 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         email = findViewById(R.id.text_email);
         pass = findViewById(R.id.text_pass);
+        if(Splash_Screen.Online){
+            mAuth = FirebaseAuth.getInstance();
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
+            mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        mAuth = FirebaseAuth.getInstance();
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        Intent intent = getIntent();
-        String msg = intent.getStringExtra("msg");
-        if(msg != null){
-            if(msg.equals("cerrarSesion")){
-                cerrarSesion();
+            Intent intent = getIntent();
+            String msg = intent.getStringExtra("msg");
+            if(msg != null){
+                if(msg.equals("cerrarSesion")){
+                    cerrarSesion();
+                }
             }
+
+            db_reference = FirebaseDatabase.getInstance().getReference().child("Aplicacion");
+
+
         }
-
-        db_reference = FirebaseDatabase.getInstance().getReference().child("Aplicacion");
-
 
 
 
@@ -89,11 +90,14 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();/* Check if user is signed in (non-null) and update UI accordingly.*/
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser!=null){
-            getUser(currentUser);
-            StartThread();
+        if(Splash_Screen.Online){
+            FirebaseUser currentUser = mAuth.getCurrentUser();
+            if (currentUser!=null){
+                getUser(currentUser);
+                StartThread();
+            }
         }
+
     }
 
     @Override
@@ -157,19 +161,35 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login_google(View view) {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
+        if(Splash_Screen.Online){
+            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+            startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
+        }
+        else {
+            Toast.makeText(LoginActivity.this, "Conexion Perdida", Toast.LENGTH_SHORT).show();
+        }
+
     }
     public void register(View view) {
-        Intent signInIntent = new Intent(getApplicationContext(),RegisterActivity.class);
-        startActivity(signInIntent);
+        if(Splash_Screen.Online){
+            Intent signInIntent = new Intent(getApplicationContext(), RegisterActivity.class);
+            startActivity(signInIntent);
+        } else {
+            Toast.makeText(LoginActivity.this, "Conexion Perdida", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void login(View view) {
-        FirebaseUser user = mAuth.getCurrentUser();
-        if(user==null){
-            signIn(email.getText().toString(),pass.getText().toString());
+        if(Splash_Screen.Online){
+            FirebaseUser user = mAuth.getCurrentUser();
+            if(user==null){
+                signIn(email.getText().toString(),pass.getText().toString());
+            }
+        } else {
+            Toast.makeText(LoginActivity.this, "Conexion Perdida", Toast.LENGTH_SHORT).show();
         }
+
 
     }
 

@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".LoginActivity">
+    tools:context=".Activity.LoginActivity"
+    android:background="@drawable/fondo">
 
 <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@drawable/custom_background">
+    >
     <ProgressBar
         android:id="@+id/progressBar"
         android:indeterminate="true"
@@ -21,8 +22,8 @@
         style="?android:attr/progressBarStyleHorizontal"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="421dp"
-        android:layout_height="656dp"
+        android:layout_width="410dp"
+        android:layout_height="670dp"
         android:layout_marginStart="-1dp"
         android:layout_marginTop="-14dp">
 
@@ -37,11 +38,11 @@
             android:textColor="@color/gray"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.047"
+            app:layout_constraintHorizontal_bias="0.089"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.977" />
+            app:layout_constraintVertical_bias="0.926" />
 
         <TextView
             android:id="@+id/registrar"
@@ -56,15 +57,15 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintHorizontal_bias="0.19"
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.977" />
+            app:layout_constraintVertical_bias="0.926" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/content_pass"
-            android:layout_width="384dp"
-            android:layout_height="96dp"
+            android:layout_width="377dp"
+            android:layout_height="68dp"
             android:layout_marginTop="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -75,7 +76,7 @@
 
             <EditText
                 android:id="@+id/text_pass"
-                android:layout_width="385dp"
+                android:layout_width="360dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="1dp"
                 android:layout_marginLeft="1dp"
@@ -98,7 +99,7 @@
 
         <EditText
             android:id="@+id/text_email"
-            android:layout_width="390dp"
+            android:layout_width="360dp"
             android:layout_height="50dp"
             android:layout_marginTop="32dp"
             android:background="@drawable/input_file"
@@ -129,10 +130,10 @@
             android:textSize="22sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.275"
+            app:layout_constraintHorizontal_bias="0.274"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/content_pass"
-            app:layout_constraintVertical_bias="0.054" />
+            app:layout_constraintVertical_bias="0.176" />
 
         <Button
             android:id="@+id/google_login"
@@ -147,8 +148,8 @@
 
         <ImageView
             android:id="@+id/textView"
-            android:layout_width="170dp"
-            android:layout_height="146dp"
+            android:layout_width="207dp"
+            android:layout_height="205dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/logo_transparent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,11 +1,10 @@
-package espol.edu.bagtraking.ui.home;
+package espol.edu.bagtraking.ui.map;
 
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
@@ -32,23 +31,26 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 
+import espol.edu.bagtraking.Activity.perfil_usuario_1;
 import espol.edu.bagtraking.R;
 
-public class HomeFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-    private HomeViewModel homeViewModel;
-    private static final String TAG = HomeFragment.class.getSimpleName();
+    private MapViewModel mapViewModel;
+    private static final String TAG = MapFragment.class.getSimpleName();
     private GoogleMap mMap;
     DatabaseReference db_reference;
     LinkedList<LatLng> posiciones ;
+
     private HashMap<String, Marker> mMarkers = new HashMap<>();
-    double DISTANCIA = 0;
+    public static double DISTANCIA = 0.0d;
+    public static boolean Ready = false;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-
+        mapViewModel =
+                ViewModelProviders.of(this).get(MapViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_map, container, false);
+        ((perfil_usuario_1) getActivity()).getSupportActionBar().setTitle("Home Mapa");
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map1);
         if(mapFragment == null){
@@ -60,9 +62,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         posiciones = new LinkedList<>();
+
+
+
         /*
         final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
+        mapViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
@@ -80,11 +85,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         mMap.setMaxZoomPreference(16);
         subscribeToUpdates();
         StartThread();
-        Toast.makeText(getActivity(),"La distancia de tu maleta ahora es de .."+String.valueOf(DISTANCIA), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(),"La distancia de tu maleta ahora es de .."+String.valueOf(DISTANCIA), Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onStart() {
-
+        Ready = true;
         super.onStart();
     }
     private void subscribeToUpdates() {
@@ -163,6 +168,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         DISTANCIA = c;
                         System.out.println(c);
                         System.out.println(posiciones.getLast()+","+posiciones.get(posiciones.size()-2));
+                        //toast.show();
+                        //Toast.makeText(contex,"La distancia de tu maleta ahora es de .."+String.valueOf(DISTANCIA), Toast.LENGTH_SHORT).show();
+
+
 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -174,4 +183,5 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         thread.start();
     }
+
 }

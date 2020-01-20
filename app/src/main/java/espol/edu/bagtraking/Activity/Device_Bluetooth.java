@@ -1,4 +1,4 @@
-package espol.edu.bagtraking;
+package espol.edu.bagtraking.Activity;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -29,6 +29,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+
+import espol.edu.bagtraking.Activity.Controlador_Carga;
+import espol.edu.bagtraking.R;
 
 
 public class Device_Bluetooth extends AppCompatActivity {

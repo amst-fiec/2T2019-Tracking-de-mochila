@@ -8,4 +8,13 @@
         android:type="linear"
         android:angle="0"
         />
+    <padding
+        android:bottom="80dp"
+        android:left="2dp"
+        android:right="24dp"
+        android:top="2dp"
+
+        />
+
+
 </shape>

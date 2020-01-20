@@ -1,4 +1,4 @@
-package espol.edu.bagtraking;
+package espol.edu.bagtraking.Activity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -15,6 +15,8 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
+
+import espol.edu.bagtraking.R;
 
 public class Controlador_Carga extends Activity {
     private static final String TAG = "BlueTest5-Controlling";

@@ -1,4 +1,4 @@
-package espol.edu.bagtraking;
+package espol.edu.bagtraking.Activity;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import espol.edu.bagtraking.R;
 import espol.edu.bagtraking.ui.main.SectionsPagerAdapter;
 
 public class tab_menu extends AppCompatActivity {
