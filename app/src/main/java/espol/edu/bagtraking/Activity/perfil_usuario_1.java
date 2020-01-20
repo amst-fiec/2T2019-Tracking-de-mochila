@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -38,7 +37,7 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import espol.edu.bagtraking.R;
-import espol.edu.bagtraking.ui.gallery.GalleryFragment;
+import espol.edu.bagtraking.ui.maletas.MaletasFragment;
 import espol.edu.bagtraking.ui.grafica.GraficFragment;
 import espol.edu.bagtraking.ui.map.MapFragment;
 import espol.edu.bagtraking.ui.salir.SalirFragment;
@@ -228,7 +227,7 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
             case 1:
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                GalleryFragment starredFragment = new GalleryFragment();
+                MaletasFragment starredFragment = new MaletasFragment();
                 fragmentTransaction.replace(R.id.nav_host_fragment, starredFragment);
                 fragmentTransaction.commit();
                 break;

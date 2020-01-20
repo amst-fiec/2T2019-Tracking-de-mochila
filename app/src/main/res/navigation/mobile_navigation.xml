@@ -13,9 +13,9 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="espol.edu.bagtraking.ui.gallery.GalleryFragment"
+        android:name="espol.edu.bagtraking.ui.maletas.MaletasFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_maletas" />
 
     <fragment
         android:id="@+id/nav_slideshow"

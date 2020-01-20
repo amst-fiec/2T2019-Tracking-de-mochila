@@ -19,7 +19,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import espol.edu.bagtraking.Activity.LoginActivity;
 import espol.edu.bagtraking.R;
-import espol.edu.bagtraking.ui.gallery.GalleryViewModel;
 
 public class SalirFragment extends Fragment {
 
@@ -29,6 +28,7 @@ public class SalirFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         salirViewModel =
                 ViewModelProviders.of(this).get(SalirViewModel.class);
+        cerrarSesion();
         View root = inflater.inflate(R.layout.salir_fragment, container, false);
         final TextView textView = root.findViewById(R.id.txt_salir);
         salirViewModel.getText().observe(this, new Observer<String>() {
