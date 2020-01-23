@@ -45,8 +45,8 @@ import espol.edu.bagtraking.ui.tools.ToolsFragment;
 
 public class perfil_usuario_1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    DrawerLayout drawerLayout;
-    Toolbar toolbar;
+    private DrawerLayout drawerLayout;
+    private Toolbar toolbar;
 
     private AppBarConfiguration mAppBarConfiguration;
     private ImageView imv_photo;
@@ -110,26 +110,6 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-         /*button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!editText.getText().toString().isEmpty())
-                {
-                    if (nombre.contains(editText.getText().toString()))
-                    {
-                        Toast.makeText(getApplicationContext(),"Ya se encuentra registrado",Toast.LENGTH_LONG).show();
-                    }
-                    else
-                    {
-                        nombre.add(editText.getText().toString());
-                        ArrayAdapter adapter = new ArrayAdapter<String>(Perfil_User.this, R.layout.list_item, nombre);
-                        lista.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            }
-
-        });*/
         getMenuInflater().inflate(R.menu.perfil_usuario_1, menu);
         return true;
     }
@@ -192,14 +172,14 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
 
                 while(true){
                     try {
-                        Thread.sleep(3000);
+                        Thread.sleep(2000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     text = findViewById(R.id.tag_distancia);
                     if(text!=null && MapFragment.Ready){
 
-                        text.setText("Distancia Mochila: "+(new DecimalFormat("#.00").format(MapFragment.DISTANCIA))+"Km");
+                        text.setText("Distancia Mochila: "+(new DecimalFormat("#.00").format(MapFragment.DISTANCIA))+"m");
                     }
 
                 }

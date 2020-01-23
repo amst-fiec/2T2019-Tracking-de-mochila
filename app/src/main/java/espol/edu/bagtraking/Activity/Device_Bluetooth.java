@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import espol.edu.bagtraking.Activity.Controlador_Carga;
+
 import espol.edu.bagtraking.R;
 
 
@@ -102,7 +102,7 @@ public class Device_Bluetooth extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 BluetoothDevice device = ((MyAdapter) (listView.getAdapter())).getSelectedItem();
-                Intent intent = new Intent(getApplicationContext(), Controlador_Carga.class);
+                Intent intent = new Intent(getApplicationContext(), MenuActivity.class);
                 intent.putExtra(DEVICE_EXTRA, device);
                 intent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
                 intent.putExtra(BUFFER_SIZE, mBufferSize);

@@ -32,6 +32,8 @@ import java.util.LinkedList;
 
 
 import espol.edu.bagtraking.Activity.perfil_usuario_1;
+import espol.edu.bagtraking.Modelo.ModelFireBase;
+import espol.edu.bagtraking.Modelo.Variables;
 import espol.edu.bagtraking.R;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -85,6 +87,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMap.setMaxZoomPreference(16);
         subscribeToUpdates();
         StartThread();
+        HiloNotificacions();
         //Toast.makeText(getActivity(),"La distancia de tu maleta ahora es de .."+String.valueOf(DISTANCIA), Toast.LENGTH_SHORT).show();
     }
     @Override
@@ -154,22 +157,49 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 while(true){
                     try {
                         Thread.sleep(3000);
-                        double constante = Math.PI /180;
-                        double lat2 = posiciones.getLast().latitude * constante;
-                        double long2 = posiciones.getLast().longitude* constante;
-                        double lat1 = posiciones.get(posiciones.size()-2).latitude* constante;
-                        double long1 = posiciones.get(posiciones.size()-2).longitude* constante;
-                        double R = 6371; //km
-
-                        double deltalat = lat2-lat1;
-                        double deltalong = long2 -long1;
-                        double a= Math.pow(Math.sin(deltalat/2),2) + Math.cos(lat1)*Math.cos(lat2)*Math.pow(Math.sin(deltalong/2),2);
-                        double c = 2*R*Math.atan(Math.sqrt(a))*1000;
-                        DISTANCIA = c;
-                        System.out.println(c);
-                        System.out.println(posiciones.getLast()+","+posiciones.get(posiciones.size()-2));
+                        while(posiciones.isEmpty()){}
+                        DISTANCIA = CalcularDistancia(posiciones.get(posiciones.size()-2).latitude,posiciones.get(posiciones.size()-2).longitude
+                        ,posiciones.getLast().latitude, posiciones.getLast().longitude);
                         //toast.show();
                         //Toast.makeText(contex,"La distancia de tu maleta ahora es de .."+String.valueOf(DISTANCIA), Toast.LENGTH_SHORT).show();
+
+
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        };
+
+        thread.start();
+    }
+    private double CalcularDistancia( double lat1,double long1,double lat2,double long2){
+        double constante = Math.PI /180;
+        lat2 = lat2 * constante;
+        long2 = long2* constante;
+        lat1 =lat1* constante;
+        long1 =long1* constante;
+        double R = 6371; //km
+
+        double deltalat = lat2-lat1;
+        double deltalong = long2 -long1;
+        double a= Math.pow(Math.sin(deltalat/2),2) + Math.cos(lat1)*Math.cos(lat2)*Math.pow(Math.sin(deltalong/2),2);
+        double c = 2*R*Math.atan(Math.sqrt(a))*1000;
+        return c;
+    }
+    public void HiloNotificacions(){
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                while(true){
+                    try {
+                        Thread.sleep(10000);
+                        while(posiciones.isEmpty()&& DISTANCIA !=0){}
+                        if(DISTANCIA>=100d){
+                            System.out.println("Enviando Notificacion.."+new ModelFireBase("Aplicacion").getCurrentUser().getEmail());
+                        }
 
 
 

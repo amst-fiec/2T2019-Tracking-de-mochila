@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:text="Tu maleta se encuentra a: 6300 metros"
+            android:text="Tu maleta se encuentra a: 0 metros"
             android:textColor="@color/negro"
             android:textSize="20dp" />
 

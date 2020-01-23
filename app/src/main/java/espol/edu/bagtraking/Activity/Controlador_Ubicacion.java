@@ -1,15 +1,20 @@
 package espol.edu.bagtraking.Activity;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -18,7 +23,7 @@ import java.util.UUID;
 
 import espol.edu.bagtraking.R;
 
-public class Controlador_Carga extends Activity {
+public class Controlador_Ubicacion extends Activity {
     private static final String TAG = "BlueTest5-Controlling";
     private int mMaxChars = 50000;
     private UUID mDeviceUUID;
@@ -26,67 +31,85 @@ public class Controlador_Carga extends Activity {
     private ReadInput mReadThread = null;
     private boolean mIsUserInitiatedDisconnect = false;
     private boolean mIsBluetoothConnected = false;
-    private Button mBtnDisconnect;
     private BluetoothDevice mDevice;
-    final static String solar="92";//Solar Panel
-    final static String usb="79";//PC
-    final static String apagar="91";//apagar
+    private static String normal="0";
     private ProgressDialog progressDialog;
-    Button btnsolar,btnusb,btnOff;
+    TextView estatico,live;
+    Button enviar;
+    EditText minutos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_controlador__carga);
-        // mBtnDisconnect = (Button) findViewById(R.id.btnDisconnect);
-        btnsolar =(Button)findViewById(R.id.solar);
-        btnusb=(Button)findViewById(R.id.usb);
-        btnOff=(Button)findViewById(R.id.apagar);
+        setContentView(R.layout.activity_controlador__ubicacion);
+        enviar=(Button)findViewById(R.id.enviar);
+        minutos=(EditText)findViewById(R.id.tiempo);
+        estatico=(TextView)findViewById(R.id.estatico);
+        live=(TextView)findViewById(R.id.live);
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
         mDevice = MenuActivity.mDevice;
         mDeviceUUID = MenuActivity.mDeviceUUID;
         mMaxChars = MenuActivity.mMaxChars;
         Log.d(TAG, "Ready");
-        btnsolar.setOnClickListener(new View.OnClickListener()
-        {
 
+        estatico.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarInstruciones();
+            }
+        });
+        enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                try {
-                    mBTSocket.getOutputStream().write(solar.getBytes());
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                if(minutos.getText().toString().isEmpty())
+                {
+                    Toast.makeText(getApplicationContext(),"Error no ha puesto los minutos",Toast.LENGTH_LONG).show();
                 }
-            }});
-        btnusb.setOnClickListener(new View.OnClickListener()
-        {
+                else
+                {
+                    if (Integer.parseInt(minutos.getText().toString())>=2)
+                    {
+                        try {
+                            mBTSocket.getOutputStream().write(minutos.getText().toString().getBytes());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Los minutos ingresados deben ser mayor a 2",Toast.LENGTH_LONG).show();
+                    }
 
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    mBTSocket.getOutputStream().write(usb.getBytes());
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }});
-
-        btnOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    mBTSocket.getOutputStream().write(apagar.getBytes());
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
                 }
 
             }
         });
+
+        live.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    mBTSocket.getOutputStream().write(normal.getBytes());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    //Mensajes emergentes
+    private void mostrarInstruciones()
+    {
+        AlertDialog.Builder builder=new AlertDialog.Builder(Controlador_Ubicacion.this);
+        builder.setTitle("Instrucciones");
+        builder.setMessage("Ingrese el tiempo máximo de duración de este modo, la ubicación se enviara constantemenet");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
     private class ReadInput implements Runnable {
         private boolean bStop = false;
@@ -202,7 +225,7 @@ public class Controlador_Carga extends Activity {
         @Override
         protected void onPreExecute() {
 
-            progressDialog = ProgressDialog.show(Controlador_Carga.this, "Bluetooth", "Connecting");
+            progressDialog = ProgressDialog.show(Controlador_Ubicacion.this, "Bluetooth", "Connecting");
         }
 
         @Override

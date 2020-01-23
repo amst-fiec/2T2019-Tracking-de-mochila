@@ -20,32 +20,27 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
+import espol.edu.bagtraking.Modelo.ModelFireBase;
+import espol.edu.bagtraking.Modelo.Variables;
 import espol.edu.bagtraking.R;
 
 
 public class LoginActivity extends AppCompatActivity {
 
     private EditText email;
-    EditText pass;
-    private FirebaseAuth mAuth;
+    private EditText pass;
+
     static final int GOOGLE_SIGN_IN = 123;
-    GoogleSignInClient mGoogleSignInClient;
-    DatabaseReference db_reference;
+    private GoogleSignInClient mGoogleSignInClient;
 
 
     private static final String TAG = "EmailPassword";
-    private HashMap<String, String>  info_user;
+    private HashMap<String, String> info_user;
 
 
     @Override
@@ -54,8 +49,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         email = findViewById(R.id.text_email);
         pass = findViewById(R.id.text_pass);
-        if(Splash_Screen.Online){
-            mAuth = FirebaseAuth.getInstance();
+        info_user = new HashMap<>();
+
+
+        if (Variables.HAY_INTERNET) {
+
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.default_web_client_id))
                     .requestEmail()
@@ -64,18 +62,14 @@ public class LoginActivity extends AppCompatActivity {
 
             Intent intent = getIntent();
             String msg = intent.getStringExtra("msg");
-            if(msg != null){
-                if(msg.equals("cerrarSesion")){
+            if (msg != null) {
+                if (msg.equals("cerrarSesion")) {
                     cerrarSesion();
                 }
             }
 
-            db_reference = FirebaseDatabase.getInstance().getReference().child("Aplicacion");
-
 
         }
-
-
 
 
     }
@@ -90,10 +84,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();/* Check if user is signed in (non-null) and update UI accordingly.*/
-        if(Splash_Screen.Online){
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-            if (currentUser!=null){
-                getUser(currentUser);
+        if (Variables.HAY_INTERNET) {
+            FirebaseUser currentUser = new ModelFireBase("Aplicacion").getCurrentUser();
+            if (currentUser != null) {
+                new ModelFireBase("Aplicacion").getUser(info_user);
                 StartThread();
             }
         }
@@ -118,19 +112,19 @@ public class LoginActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("TAG", "firebaseAuthWithGoogle:" + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
+        new ModelFireBase("Aplicacion").getmAuth().signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            GuardadUsuario(info_user,user);
+                            FirebaseUser user = new ModelFireBase("Aplicacion").getCurrentUser();
+                            new ModelFireBase("Aplicacion").GuardadUsuario(info_user);
                             updateUI(user);
-                            Toast.makeText(getApplicationContext(),"Bienvenido"+user.getDisplayName(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Bienvenido.. " + user.getDisplayName(), Toast.LENGTH_LONG).show();
 
                         } else {
                             System.out.println("error");
-                            Toast.makeText(getApplicationContext(),"Usuario o Contraseña Incorrectos!",Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "Usuario o Contraseña Incorrectos!", Toast.LENGTH_LONG).show();
 
                         }
                     }
@@ -149,7 +143,6 @@ public class LoginActivity extends AppCompatActivity {
             info_user.put("user_phone", user.getPhoneNumber());
 
 
-
             Intent intent = new Intent(this, perfil_usuario_1.class);
             intent.putExtra("info_user", info_user);
             startActivity(intent);
@@ -161,17 +154,17 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login_google(View view) {
-        if(Splash_Screen.Online){
+        if (Variables.HAY_INTERNET) {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, GOOGLE_SIGN_IN);
-        }
-        else {
+        } else {
             Toast.makeText(LoginActivity.this, "Conexion Perdida", Toast.LENGTH_SHORT).show();
         }
 
     }
+
     public void register(View view) {
-        if(Splash_Screen.Online){
+        if (Variables.HAY_INTERNET) {
             Intent signInIntent = new Intent(getApplicationContext(), RegisterActivity.class);
             startActivity(signInIntent);
         } else {
@@ -181,10 +174,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        if(Splash_Screen.Online){
-            FirebaseUser user = mAuth.getCurrentUser();
-            if(user==null){
-                signIn(email.getText().toString(),pass.getText().toString());
+        if (Variables.HAY_INTERNET) {
+            FirebaseUser user = new ModelFireBase("Aplicacion").getCurrentUser();
+            if (user == null) {
+                signIn(email.getText().toString(), pass.getText().toString());
             }
         } else {
             Toast.makeText(LoginActivity.this, "Conexion Perdida", Toast.LENGTH_SHORT).show();
@@ -201,16 +194,16 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // [START sign_in_with_email]
-        mAuth.signInWithEmailAndPassword(email, password)
+        new ModelFireBase("Aplicacion").getmAuth().signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            Toast.makeText(getApplicationContext(),"Bienvenido...",Toast.LENGTH_LONG).show();
-                            getUser(user);
+                            FirebaseUser user = new ModelFireBase("Aplicacion").getCurrentUser();
+                            Toast.makeText(getApplicationContext(), "Bienvenido... ", Toast.LENGTH_LONG).show();
+                            new ModelFireBase("Aplicacion").getUser(info_user);
                             StartThread();
 
 
@@ -235,9 +228,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signOut() {
-        mAuth.signOut();
+        new ModelFireBase("Aplicacion").getmAuth().signOut();
         updateUI(null);
     }
+
     private boolean validateForm() {
         boolean valid = true;
 
@@ -259,31 +253,15 @@ public class LoginActivity extends AppCompatActivity {
 
         return valid;
     }
-    public void getUser(FirebaseUser user){
-        HashMap<String, String> info_user = new HashMap<String, String>();
-        db_reference.child("Usuarios").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                info_user.put("user_name", String.valueOf(dataSnapshot.child("user_name").getValue()));
-                info_user.put("user_email", String.valueOf(dataSnapshot.child("user_email").getValue()));
-                info_user.put("user_photo", String.valueOf(dataSnapshot.child("user_photo").getValue()));
-                info_user.put("user_phone", String.valueOf(dataSnapshot.child("user_phone").getValue()));
 
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println(databaseError.getMessage());
-            }
-        });
-        this.info_user = info_user;
-    }
-
-    public void StartThread(){
+    public void StartThread() {
         Thread thread = new Thread() {
             @Override
             public void run() {
-                while(info_user.isEmpty()){System.out.println(info_user);}
+                while (info_user.isEmpty()) {
+                    System.out.println(info_user);
+                }
                 Intent intent = new Intent(getApplicationContext(), perfil_usuario_1.class);
                 intent.putExtra("info_user", info_user);
                 startActivity(intent);
@@ -293,27 +271,6 @@ public class LoginActivity extends AppCompatActivity {
 
         thread.start();
     }
-    private void GuardadUsuario(HashMap<String, String> info_user,FirebaseUser user){
-
-        if(info_user==null){
-            info_user = new HashMap<>();
-        }
-        info_user.put("user_iduser",user.getEmail());
-        info_user.put("user_name", user.getDisplayName());
-        info_user.put("user_email", user.getEmail());
-        info_user.put("user_photo", String.valueOf(user.getPhotoUrl()));
-        info_user.put("user_id", user.getUid());
-        info_user.put("user_phone", user.getPhoneNumber());
-
-        DatabaseReference data = db_reference.child("Usuarios").child(info_user.get("user_id"));
-        data.child("user_name").setValue(info_user.get("user_name"));
-        data.child("user_email").setValue(info_user.get("user_email"));
-        data.child("user_phone").setValue(info_user.get("user_phone"));
-        data.child("user_iduser").setValue(info_user.get("user_iduser"));
-        data.child("user_photo").setValue(info_user.get("user_photo"));
 
 
-
-
-    }
 }

@@ -26,20 +26,21 @@ import espol.edu.bagtraking.R;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    Button back;
-    Button register;
-    HashMap<String, String> info_user;
-    EditText nombre;
-    EditText apellido;
-    EditText usuario;
-    EditText pass;
-    EditText confirmPass;
-    EditText correo;
-    EditText telefono;
-    DatabaseReference db_reference;
+    private Button back;
+    private Button register;
+    private HashMap<String, String> info_user;
+    private EditText nombre;
+    private EditText apellido;
+    private EditText usuario;
+    private EditText pass;
+    private EditText confirmPass;
+    private EditText correo;
+    private EditText telefono;
+    private DatabaseReference db_reference;
     private static final String TAG = "EmailPassword";
     private FirebaseAuth mAuth;
     private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +49,8 @@ public class RegisterActivity extends AppCompatActivity {
         db_reference = FirebaseDatabase.getInstance().getReference().child("Aplicacion");
         mAuth = FirebaseAuth.getInstance();
 
-        back=findViewById(R.id.anterior);
-        register =  findViewById(R.id.btn_register);
+        back = findViewById(R.id.anterior);
+        register = findViewById(R.id.btn_register);
         nombre = findViewById(R.id.txt_nombre);
         apellido = findViewById(R.id.txt_apellido);
         usuario = findViewById(R.id.txt_usuario);
@@ -65,21 +66,21 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
         Intent intent = getIntent();
-        info_user = (HashMap<String, String>)intent.getSerializableExtra("info_user");
+        info_user = (HashMap<String, String>) intent.getSerializableExtra("info_user");
         cargarDatos();
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createAccount(correo.getText().toString(),pass.getText().toString());
+                createAccount(correo.getText().toString(), pass.getText().toString());
 
             }
         });
     }
 
 
-    private void cargarDatos(){
-        if(info_user!= null){
+    private void cargarDatos() {
+        if (info_user != null) {
             nombre.setText(info_user.get("user_name"));
             apellido.setText(info_user.get("user_name"));
             correo.setText(info_user.get("user_email"));
@@ -88,6 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
     }
+
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
         if (!validateForm()) {
@@ -104,7 +106,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            GuardadUsuario(info_user,user);
+                            GuardadUsuario(info_user, user);
                             Intent intent = new Intent(getApplicationContext(), perfil_usuario_1.class);
                             intent.putExtra("info_user", info_user);
                             startActivity(intent);
@@ -113,7 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(RegisterActivity.this, "Authentication failed."+task.getException().getMessage(),
+                            Toast.makeText(RegisterActivity.this, "Authentication failed." + task.getException().getMessage(),
                                     Toast.LENGTH_SHORT).show();
 
                         }
@@ -125,6 +127,7 @@ public class RegisterActivity extends AppCompatActivity {
                 });
         // [END create_user_with_email]
     }
+
     private boolean validateForm() {
         boolean valid = true;
 
@@ -143,16 +146,30 @@ public class RegisterActivity extends AppCompatActivity {
         } else {
             pass.setError(null);
         }
-
+        String confir = this.confirmPass.getText().toString();
+        if (TextUtils.isEmpty(password)) {
+            confirmPass.setError("Required.");
+            valid = false;
+        } else {
+            pass.setError(null);
+        }
+        if (password != confir) {
+            pass.setError("Contraseñas No iguales");
+            confirmPass.setError("Contraseñas No iguales");
+            valid = false;
+        } else {
+            pass.setError(null);
+        }
         return valid;
     }
-    private void GuardadUsuario(HashMap<String, String> info_user,FirebaseUser user){
 
-        if(info_user==null){
+    private void GuardadUsuario(HashMap<String, String> info_user, FirebaseUser user) {
+
+        if (info_user == null) {
             info_user = new HashMap<>();
         }
-        info_user.put("user_phone",telefono.getText().toString());
-        info_user.put("user_iduser",usuario.getText().toString());
+        info_user.put("user_phone", telefono.getText().toString());
+        info_user.put("user_iduser", usuario.getText().toString());
         info_user.put("user_name", nombre.getText().toString());
         info_user.put("user_email", correo.getText().toString());
         info_user.put("user_photo", "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/User_icon_2.svg/1200px-User_icon_2.svg.png");
@@ -167,16 +184,15 @@ public class RegisterActivity extends AppCompatActivity {
         data.child("user_photo").setValue(info_user.get("user_photo"));
 
 
-
-
     }
+
     public static String randomAlphaNumeric(int count) {
 
         StringBuilder builder = new StringBuilder();
 
         while (count-- != 0) {
 
-            int character = (int)(Math.random()*ALPHA_NUMERIC_STRING.length());
+            int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
 
             builder.append(ALPHA_NUMERIC_STRING.charAt(character));
 

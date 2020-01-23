@@ -1,15 +1,20 @@
 package espol.edu.bagtraking.Activity;
+
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+
+import android.widget.ImageView;
+
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -18,75 +23,60 @@ import java.util.UUID;
 
 import espol.edu.bagtraking.R;
 
-public class Controlador_Carga extends Activity {
+public class MenuActivity extends Activity {
     private static final String TAG = "BlueTest5-Controlling";
-    private int mMaxChars = 50000;
-    private UUID mDeviceUUID;
+    public static int mMaxChars = 50000;
+    public  static UUID mDeviceUUID;
     private BluetoothSocket mBTSocket;
     private ReadInput mReadThread = null;
     private boolean mIsUserInitiatedDisconnect = false;
     private boolean mIsBluetoothConnected = false;
-    private Button mBtnDisconnect;
-    private BluetoothDevice mDevice;
-    final static String solar="92";//Solar Panel
-    final static String usb="79";//PC
-    final static String apagar="91";//apagar
+    public static BluetoothDevice mDevice;
     private ProgressDialog progressDialog;
-    Button btnsolar,btnusb,btnOff;
+    private ImageView modo,energia;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_controlador__carga);
-        // mBtnDisconnect = (Button) findViewById(R.id.btnDisconnect);
-        btnsolar =(Button)findViewById(R.id.solar);
-        btnusb=(Button)findViewById(R.id.usb);
-        btnOff=(Button)findViewById(R.id.apagar);
+        setContentView(R.layout.activity_menu);
         Intent intent = getIntent();
         Bundle b = intent.getExtras();
-        mDevice = MenuActivity.mDevice;
-        mDeviceUUID = MenuActivity.mDeviceUUID;
-        mMaxChars = MenuActivity.mMaxChars;
+        mDevice = b.getParcelable(Device_Bluetooth.DEVICE_EXTRA);
+        mDeviceUUID = UUID.fromString(b.getString(Device_Bluetooth.DEVICE_UUID));
+        mMaxChars = b.getInt(Device_Bluetooth.BUFFER_SIZE);
         Log.d(TAG, "Ready");
-        btnsolar.setOnClickListener(new View.OnClickListener()
-        {
+        energia=findViewById(R.id.energia);
+        modo=findViewById(R.id.modo);
 
+        energia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                try {
-                    mBTSocket.getOutputStream().write(solar.getBytes());
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }});
-        btnusb.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    mBTSocket.getOutputStream().write(usb.getBytes());
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }});
-
-        btnOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    mBTSocket.getOutputStream().write(apagar.getBytes());
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
+                Intent intent=new Intent(MenuActivity.this, Controlador_Carga.class);
+                startActivity(intent);
             }
         });
+
+        modo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MenuActivity.this, Controlador_Ubicacion.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    //Mensajes emergentes
+    private void mostrarInstruciones()
+    {
+        AlertDialog.Builder builder=new AlertDialog.Builder(MenuActivity.this);
+        builder.setTitle("Instrucciones");
+        builder.setMessage("Ingrese el tiempo máximo de duración de este modo, la ubicación se enviara constantemenet");
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        }).show();
     }
     private class ReadInput implements Runnable {
         private boolean bStop = false;
@@ -202,7 +192,7 @@ public class Controlador_Carga extends Activity {
         @Override
         protected void onPreExecute() {
 
-            progressDialog = ProgressDialog.show(Controlador_Carga.this, "Bluetooth", "Connecting");
+            progressDialog = ProgressDialog.show(MenuActivity.this, "Bluetooth", "Connecting");
         }
 
         @Override

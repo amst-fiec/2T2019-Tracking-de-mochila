@@ -4,50 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/custom_background"
+    android:background="@drawable/fondo"
     tools:context=".Activity.Device_Bluetooth">
 
     <Button
         android:id="@+id/buscar"
-        android:layout_width="136dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="160dp"
+        android:layout_width="135dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="244dp"
         android:background="@drawable/button"
         android:fontFamily="@font/bold"
         android:text="Buscar"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/negro"
         android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/conectar"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/conectar"
-        android:layout_width="136dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="160dp"
+        android:layout_width="145dp"
+        android:layout_height="33dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="244dp"
         android:background="@drawable/button"
         android:fontFamily="@font/bold"
         android:text="Conectar"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/negro"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/lista"
-        android:layout_width="327dp"
-        android:layout_height="419dp"
+        android:layout_width="310dp"
+        android:layout_height="254dp"
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintHorizontal_bias="0.594"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buscar"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.554" />
 
     <TextView
         android:id="@+id/textView3"
@@ -56,10 +56,10 @@
         android:fontFamily="@font/bold"
         android:text="Lista de Dispositivos"
         android:textColor="@color/negro"
-        android:textAlignment="center"
         android:textSize="45dp"
         app:layout_constraintBottom_toTopOf="@+id/buscar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:textAlignment="center"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

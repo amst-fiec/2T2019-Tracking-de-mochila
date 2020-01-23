@@ -21,15 +21,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Activity.MenuActivity"></activity>
         <activity
             android:name=".Activity.tab_menu"
             android:label="@string/title_activity_tab_menu"
-            android:theme="@style/NoActionBar"></activity>
+            android:theme="@style/NoActionBar" />
         <activity
             android:name=".Activity.perfil_usuario_1"
             android:label="@string/title_activity_perfil_usuario_1"
             android:theme="@style/NoActionBar" />
-
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -42,17 +42,11 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-
+        <activity android:name=".Activity.Controlador_Ubicacion" />
         <activity android:name=".Activity.Device_Bluetooth" />
         <activity android:name=".Activity.Controlador_Carga" />
-
-        <activity
-            android:name=".Activity.RegisterActivity"
-            />
-        <activity
-            android:name=".Activity.LoginActivity"
-             />
-
+        <activity android:name=".Activity.RegisterActivity" />
+        <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.Splash_Screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
