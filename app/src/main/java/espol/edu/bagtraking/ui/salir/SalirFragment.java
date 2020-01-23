@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import espol.edu.bagtraking.Activity.LoginActivity;
+import espol.edu.bagtraking.Modelo.Metodos;
+import espol.edu.bagtraking.Modelo.Variables;
 import espol.edu.bagtraking.R;
 
 public class SalirFragment extends Fragment {
@@ -28,16 +30,10 @@ public class SalirFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         salirViewModel =
                 ViewModelProviders.of(this).get(SalirViewModel.class);
+        Variables.HAY_INTERNET = Metodos.isOnline();
         cerrarSesion();
-        View root = inflater.inflate(R.layout.salir_fragment, container, false);
-        final TextView textView = root.findViewById(R.id.txt_salir);
-        salirViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-                cerrarSesion();
-            }
-        });
+        View root = null;
+
         return root;
     }
     public void cerrarSesion(){

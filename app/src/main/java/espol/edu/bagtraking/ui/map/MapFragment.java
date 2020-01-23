@@ -8,11 +8,19 @@ import android.view.ViewGroup;
 
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,27 +29,36 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 
 import espol.edu.bagtraking.Activity.perfil_usuario_1;
-import espol.edu.bagtraking.Modelo.ModelFireBase;
 import espol.edu.bagtraking.Modelo.Variables;
 import espol.edu.bagtraking.R;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
     private MapViewModel mapViewModel;
     private static final String TAG = MapFragment.class.getSimpleName();
     private GoogleMap mMap;
-    DatabaseReference db_reference;
+
     LinkedList<LatLng> posiciones ;
 
     private HashMap<String, Marker> mMarkers = new HashMap<>();
@@ -64,8 +81,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         posiciones = new LinkedList<>();
-
-
+        this.mAuth =FirebaseAuth.getInstance();
+        this.currentUser = mAuth.getCurrentUser();
 
         /*
         final TextView textView = root.findViewById(R.id.text_home);
@@ -93,8 +110,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onStart() {
         Ready = true;
+
         super.onStart();
     }
+
+    @Override
+    public void onResume() {
+        System.out.println("Onresume.....");
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        System.out.println("Ondestroy.....");
+        super.onDestroy();
+    }
+
     private void subscribeToUpdates() {
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("datos_gps").child("4334BA");
 
@@ -133,12 +164,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
         double lat = Double.parseDouble(value.get("Latitud").toString());
         double lng = Double.parseDouble(value.get("Longitud").toString());
+        Date date = new Date();
+        DateFormat hourdateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+
         System.out.println(key);
         if(lat!=0 && lng!=0){
             LatLng location = new LatLng(lat, lng);
             posiciones.add(location);
             if (!mMarkers.containsKey(key)) {
-                mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(key).position(location)));
+                mMarkers.put(key, mMap.addMarker(new MarkerOptions().title(hourdateFormat.format(date)).position(location)));
             } else {
                 mMarkers.get(key).setPosition(location);
             }
@@ -196,9 +230,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 while(true){
                     try {
                         Thread.sleep(10000);
-                        while(posiciones.isEmpty()&& DISTANCIA !=0){}
-                        if(DISTANCIA>=100d){
-                            System.out.println("Enviando Notificacion.."+new ModelFireBase("Aplicacion").getCurrentUser().getEmail());
+                        while(posiciones.isEmpty()&& DISTANCIA !=0 ){}
+                        if(DISTANCIA>=100d && Variables.RECIBIR_NOTIFICACION){
+                            System.out.println("Enviando Notificacion.."+currentUser.getEmail());
+                            enviarDatos();
                         }
 
 
@@ -213,5 +248,45 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         thread.start();
     }
+    public void enviarDatos(){
+        String url ="https://things.ubidots.com/api/v1.6/devices/MyCellTraking/?token=BBFF-ibSk9rqslckzhIWiPyu2YYN18FG5Iw";
 
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(getActivity().getApplicationContext());
+            final org.json.JSONObject jsonBody = new org.json.JSONObject();
+            final org.json.JSONObject jsonBody1 = new org.json.JSONObject();
+            jsonBody1.put("value",DISTANCIA);
+            jsonBody.put("Distancia",jsonBody1);
+
+            System.out.println(jsonBody.toString());
+
+
+
+            JsonObjectRequest request = new JsonObjectRequest
+                    (Request.Method.POST, url, jsonBody, new Response.Listener<JSONObject>() {
+
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // TODO Auto-generated method stub
+                            // hazle un print al object o lo que gustes
+                        }
+                    }, new Response.ErrorListener() {
+
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
+
+
+
+            requestQueue.add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
 }

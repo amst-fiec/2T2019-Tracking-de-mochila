@@ -20,12 +20,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-import espol.edu.bagtraking.Modelo.ModelFireBase;
 import espol.edu.bagtraking.Modelo.Variables;
 import espol.edu.bagtraking.R;
 
@@ -37,8 +42,9 @@ public class LoginActivity extends AppCompatActivity {
 
     static final int GOOGLE_SIGN_IN = 123;
     private GoogleSignInClient mGoogleSignInClient;
-
-
+    private FirebaseAuth mAuth;
+    private DatabaseReference db_reference;
+    private FirebaseUser currentUser;
     private static final String TAG = "EmailPassword";
     private HashMap<String, String> info_user;
 
@@ -53,7 +59,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
         if (Variables.HAY_INTERNET) {
-
+            this.mAuth =FirebaseAuth.getInstance();
+            this.db_reference = FirebaseDatabase.getInstance().getReference().child("Aplicacion");
+            this.currentUser = mAuth.getCurrentUser();
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.default_web_client_id))
                     .requestEmail()
@@ -85,9 +93,9 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();/* Check if user is signed in (non-null) and update UI accordingly.*/
         if (Variables.HAY_INTERNET) {
-            FirebaseUser currentUser = new ModelFireBase("Aplicacion").getCurrentUser();
+            FirebaseUser currentUser = this.currentUser;
             if (currentUser != null) {
-                new ModelFireBase("Aplicacion").getUser(info_user);
+                getUser(info_user);
                 StartThread();
             }
         }
@@ -112,13 +120,13 @@ public class LoginActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d("TAG", "firebaseAuthWithGoogle:" + acct.getId());
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        new ModelFireBase("Aplicacion").getmAuth().signInWithCredential(credential)
+       mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser user = new ModelFireBase("Aplicacion").getCurrentUser();
-                            new ModelFireBase("Aplicacion").GuardadUsuario(info_user);
+                            FirebaseUser user =currentUser;
+                            GuardadUsuario(info_user);
                             updateUI(user);
                             Toast.makeText(getApplicationContext(), "Bienvenido.. " + user.getDisplayName(), Toast.LENGTH_LONG).show();
 
@@ -175,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view) {
         if (Variables.HAY_INTERNET) {
-            FirebaseUser user = new ModelFireBase("Aplicacion").getCurrentUser();
+            FirebaseUser user =currentUser;
             if (user == null) {
                 signIn(email.getText().toString(), pass.getText().toString());
             }
@@ -194,16 +202,16 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // [START sign_in_with_email]
-        new ModelFireBase("Aplicacion").getmAuth().signInWithEmailAndPassword(email, password)
+       mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = new ModelFireBase("Aplicacion").getCurrentUser();
+                            FirebaseUser user = currentUser;
                             Toast.makeText(getApplicationContext(), "Bienvenido... ", Toast.LENGTH_LONG).show();
-                            new ModelFireBase("Aplicacion").getUser(info_user);
+                            getUser(info_user);
                             StartThread();
 
 
@@ -228,7 +236,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void signOut() {
-        new ModelFireBase("Aplicacion").getmAuth().signOut();
+        mAuth.signOut();
         updateUI(null);
     }
 
@@ -272,5 +280,55 @@ public class LoginActivity extends AppCompatActivity {
         thread.start();
     }
 
+    public void getUser(HashMap<String, String> info_user){
+
+
+        db_reference.child("Usuarios");
+        db_reference.child(currentUser.getUid());
+        db_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                info_user.put("user_iduser",String.valueOf(dataSnapshot.child("user_email").getValue()));
+                info_user.put("user_name",String.valueOf(dataSnapshot.child("user_name").getValue()));
+                info_user.put("user_email", String.valueOf(dataSnapshot.child("user_email").getValue()));
+                info_user.put("user_photo", String.valueOf(dataSnapshot.child("user_photo").getValue()));
+                info_user.put("user_id", currentUser.getUid());
+                info_user.put("user_phone",String.valueOf(dataSnapshot.child("user_phone").getValue()));
+
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println(databaseError.getMessage());
+            }
+        });
+
+    }public void GuardadUsuario(HashMap<String, String> info_user) {
+
+        FirebaseUser user = currentUser;
+        if (user != null) {
+            if (info_user == null) {
+                info_user = new HashMap<>();
+            }
+            info_user.put("user_iduser", user.getEmail());
+            info_user.put("user_name", user.getDisplayName());
+            info_user.put("user_email", user.getEmail());
+            info_user.put("user_photo", String.valueOf(user.getPhotoUrl()));
+            info_user.put("user_id", user.getUid());
+            info_user.put("user_phone", user.getPhoneNumber());
+
+            DatabaseReference data = db_reference.child("Usuarios").child(info_user.get("user_id"));
+            data.child("user_name").setValue(info_user.get("user_name"));
+            data.child("user_email").setValue(info_user.get("user_email"));
+            data.child("user_phone").setValue(info_user.get("user_phone"));
+            data.child("user_iduser").setValue(info_user.get("user_iduser"));
+            data.child("user_photo").setValue(info_user.get("user_photo"));
+
+        }
+    }
 
 }

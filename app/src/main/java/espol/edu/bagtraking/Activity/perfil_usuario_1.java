@@ -1,6 +1,8 @@
 package espol.edu.bagtraking.Activity;
 
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -11,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -36,6 +40,7 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.util.HashMap;
 
+import espol.edu.bagtraking.Modelo.Variables;
 import espol.edu.bagtraking.R;
 import espol.edu.bagtraking.ui.maletas.MaletasFragment;
 import espol.edu.bagtraking.ui.grafica.GraficFragment;
@@ -52,6 +57,9 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
     private ImageView imv_photo;
     private TextView txt_name, txt_email;
     public static TextView text;
+
+    NotificationCompat.Builder notificacion;
+    private static final int idUnica = 51623;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +73,18 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if(Variables.RECIBIR_NOTIFICACION){
+                    fab.setImageResource(R.drawable.ic_notifications_off_black_24dp);
+                    Snackbar.make(view, "Desactivo Sus Notificaciones de Ubicacion", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    Variables.RECIBIR_NOTIFICACION = false;
+                }else{
+                    fab.setImageResource(R.drawable.ic_notifications_active_black_24dp);
+                    Snackbar.make(view, "Activo Sus Notificaciones de Ubicacion", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    Variables.RECIBIR_NOTIFICACION = true;
+                }
+
             }
         });
 
@@ -100,14 +118,34 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
         txt_name.setText(info_user.get("user_name"));
         txt_email.setText(info_user.get("user_email"));
         String photo = info_user.get("user_photo");
-        System.out.println(photo);
+        System.out.println(info_user);
         Picasso.with(getApplicationContext()).load(photo).into(imv_photo);
 
         StartThread();
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    protected void onStart() {
+        super.onStart();
+        notificacion = new NotificationCompat.Builder(this);
+        notificacion.setAutoCancel(true);
+
+        notificacion.setSmallIcon(R.mipmap.ic_launcher);
+        notificacion.setTicker("Nueva notificacion");
+        notificacion.setPriority(Notification.PRIORITY_HIGH);
+        notificacion.setWhen(System.currentTimeMillis());
+        notificacion.setContentTitle("Titulo");
+        notificacion.setContentText("Tutorial Antut Notificaciones");
+
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.notify(idUnica,notificacion.build());
+
+        System.out.println("Onstart perfil.....");
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {super.onStart();
         // Inflate the menu; this adds items to the action bar if it is present.
 
         getMenuInflater().inflate(R.menu.perfil_usuario_1, menu);
