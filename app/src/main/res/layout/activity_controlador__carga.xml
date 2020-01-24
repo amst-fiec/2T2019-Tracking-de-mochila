@@ -7,7 +7,20 @@
     android:background="@drawable/fondo"
     tools:context=".Activity.Controlador_Carga">
 
-    <Button        android:id="@+id/solar"
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="149dp"
+        android:layout_height="122dp"
+        android:background="@drawable/logo_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+
+    <Button
+        android:id="@+id/solar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="84dp"
@@ -15,7 +28,7 @@
         android:fontFamily="@font/bold"
         android:text="USB"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/negro"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/usb"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,6 +36,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/apagar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/button"
+        android:fontFamily="@font/bold"
+        android:text="Apagar"
+        android:textAllCaps="false"
+        android:textColor="@color/negro"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/usb"
@@ -33,25 +62,9 @@
         android:fontFamily="@font/bold"
         android:text="SOLAR"
         android:textAllCaps="false"
-        android:textColor="@color/white"
+        android:textColor="@color/negro"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/apagar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/apagar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="116dp"
-        android:background="@drawable/button"
-        android:fontFamily="@font/bold"
-        android:text="Apagar"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
@@ -60,14 +73,14 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="128dp"
         android:fontFamily="@font/bold"
         android:text="Controlador de Carga"
-        android:textColor="@color/white"
+        android:textAlignment="center"
+        android:textColor="@color/negro"
         android:textSize="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textAlignment="center"/>
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

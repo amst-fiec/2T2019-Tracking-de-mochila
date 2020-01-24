@@ -195,7 +195,7 @@ public class GraficFragment extends Fragment {
         String key = dataSnapshot.getKey();
         HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
         float batery = Float.parseFloat(value.get("Bateria").toString());
-        System.out.println(key);
+
         addEntry(batery);
     }
 

@@ -7,73 +7,104 @@
     android:layout_height="match_parent"
     android:background="@drawable/custom_background">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="370dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="16dp"
-        android:text="Selecciona y registra Tu Maleta"
-        android:textAlignment="center"
-        android:textColor="@color/negro"
-        android:textSize="30dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.609"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
+    <ScrollView
+        android:layout_width="410dp"
+        android:layout_height="636dp"
+        tools:layout_editor_absoluteX="-4dp"
+        tools:layout_editor_absoluteY="7dp"
+        tools:ignore="MissingConstraints">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/txt_id"
-        android:layout_width="151dp"
-        android:layout_height="61dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="88dp"
-        android:layout_marginEnd="21dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Id"
-        app:layout_constraintEnd_toStartOf="@+id/lista_maletas"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/txt_name"
-        android:layout_width="151dp"
-        android:layout_height="61dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Nombre"
-        app:layout_constraintEnd_toEndOf="@+id/txt_id"
-        app:layout_constraintStart_toStartOf="@+id/txt_id"
-        app:layout_constraintTop_toBottomOf="@+id/txt_id" />
+                <ImageView
+                    android:id="@+id/textView5"
+                    android:layout_width="140dp"
+                    android:layout_height="107dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/logo_transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/buttonFragmentInbox"
-        android:layout_width="164dp"
-        android:layout_height="61dp"
-        android:layout_marginTop="32dp"
-        android:background="@drawable/button"
-        android:text="Agregar Maleta"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.542"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lista_maletas" />
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="370dp"
+                    android:layout_height="76dp"
+                    android:layout_marginTop="124dp"
+                    android:text="Selecciona y registra Tu Maleta"
+                    android:textAlignment="center"
+                    android:textColor="@color/negro"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints" />
 
-    <ListView
-        android:id="@+id/lista_maletas"
-        android:layout_width="189dp"
-        android:layout_height="310dp"
-        android:layout_marginTop="144dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/custom_background"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                <EditText
+                    android:id="@+id/txt_id"
+                    android:layout_width="173dp"
+                    android:layout_height="57dp"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/input_file"
+                    android:ems="10"
+                    android:hint="Id"
+                    android:inputType="textPersonName"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_name"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="27dp" />
+
+                <EditText
+                    android:id="@+id/txt_name"
+                    android:layout_width="171dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="100dp"
+                    android:background="@drawable/input_file"
+                    android:ems="10"
+                    android:hint="Nombre"
+                    android:inputType="textPersonName"
+                    app:layout_constraintEnd_toEndOf="@+id/txt_id"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="@+id/txt_id"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+                <Button
+                    android:id="@+id/buttonFragmentInbox"
+                    android:layout_width="164dp"
+                    android:layout_height="61dp"
+                    android:layout_marginTop="148dp"
+                    android:background="@drawable/button"
+                    android:text="Agregar Maleta"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_id"
+                    tools:ignore="MissingConstraints" />
+
+                <ListView
+                    android:id="@+id/lista_maletas"
+                    android:layout_width="168dp"
+                    android:layout_height="297dp"
+                    android:layout_marginTop="68dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/input_file"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView4"
+                    app:layout_constraintVertical_bias="0.0" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

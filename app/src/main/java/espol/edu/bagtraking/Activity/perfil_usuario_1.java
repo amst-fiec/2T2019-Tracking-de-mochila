@@ -137,7 +137,7 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
         txt_email.setText(info_user.get("user_email"));
         phone= info_user.get("user_phone");
         String photo = info_user.get("user_photo");
-        System.out.println(info_user);
+
         Picasso.with(getApplicationContext()).load(photo).into(imv_photo);
 
 
@@ -241,7 +241,7 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
 
                 while(true){
                     try {
-                        Thread.sleep(10000);
+                        Thread.sleep(Variables.INTERVALO_NOTIFICACION);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -250,8 +250,8 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
                     if(text!=null && MapFragment.Ready){
 
                         text.setText("Distancia Mochila: "+(new DecimalFormat("#.00").format(MapFragment.DISTANCIA))+"m");
-                        System.out.println("Enviando " + MapFragment.DISTANCIA);
-                        if(MapFragment.DISTANCIA>100 && Variables.RECIBIR_NOTIFICACION) {
+
+                        if(MapFragment.DISTANCIA>Variables.MAXIMO_DISTANCIA && Variables.RECIBIR_NOTIFICACION) {
                             showNotification(" Alerta de Movimiento", "Su Maleta Se movio: " + (new DecimalFormat("#.00").format(MapFragment.DISTANCIA)));
 
                             if (ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -259,7 +259,10 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
                                     != PackageManager.PERMISSION_GRANTED) {
                                 return;
                             }
-                            sendMessage(phone,"Mensaje de Prueba");
+                            if(phone!=null && phone!=""){
+                                sendMessage(phone,"Mensaje de Prueba");
+                            }
+
 
 
 

@@ -94,9 +94,9 @@ public class Splash_Screen extends AppCompatActivity {
             @Override
             public void run() {
                 while (info_user.isEmpty()) {
-                    System.out.println("Esperando Datos...");
+
                 }
-                //System.out.println(info_user);
+
                 Intent intent = new Intent(getApplicationContext(), perfil_usuario_1.class);
                 intent.putExtra("info_user", info_user);
                 startActivity(intent);
@@ -122,7 +122,7 @@ public class Splash_Screen extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println(databaseError.getMessage());
+
             }
         });
         this.info_user = info_user;

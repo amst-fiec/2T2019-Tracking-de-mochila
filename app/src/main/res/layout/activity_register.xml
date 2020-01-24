@@ -142,10 +142,10 @@
 
             <Button
                 android:id="@+id/anterior"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="59dp"
+                android:layout_height="44dp"
                 android:layout_marginBottom="47dp"
-                android:background="@drawable/anterior"
+                android:background="@drawable/ic_undo_black_24dp"
                 app:layout_constraintBottom_toTopOf="@+id/textView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.06"
@@ -232,7 +232,7 @@
                 android:fontFamily="@font/regular"
                 android:text="Registrar"
                 android:textAllCaps="false"
-                android:textColor="@color/white"
+                android:textColor="@color/negro"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

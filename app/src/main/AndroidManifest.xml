@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="espol.edu.bagtraking">
+    package="espol.edu.bagtraking"
+    android:versionCode="1"
+    android:versionName="1.0"
+    tools:ignore="GradleOverrides">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -42,7 +45,8 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="@string/google_maps_key"
+          />
 
         <activity android:name=".Activity.Controlador_Ubicacion" />
         <activity android:name=".Activity.Device_Bluetooth" />

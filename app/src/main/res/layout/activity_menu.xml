@@ -8,6 +8,18 @@
     tools:context=".Activity.MenuActivity">
 
 
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="117dp"
+        android:layout_height="107dp"
+        android:background="@drawable/logo_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/energia"
         android:layout_width="107dp"
@@ -52,7 +64,7 @@
         android:layout_marginRight="24dp"
         android:fontFamily="@font/bold"
         android:text="Menu"
-        android:textColor="@color/white"
+        android:textColor="@color/negro"
         android:textSize="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

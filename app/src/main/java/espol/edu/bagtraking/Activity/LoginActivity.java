@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashMap;
 
 import espol.edu.bagtraking.Modelo.Variables;
@@ -131,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "Bienvenido.. " + user.getDisplayName(), Toast.LENGTH_LONG).show();
 
                         } else {
-                            System.out.println("error");
+
                             Toast.makeText(getApplicationContext(), "Usuario o Contraseña Incorrectos!", Toast.LENGTH_LONG).show();
 
                         }
@@ -157,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
             finish();
 
         } else {
-            System.out.println("No Login");
+
         }
     }
 
@@ -268,12 +269,18 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void run() {
                 while (info_user.isEmpty()) {
-                    System.out.println(info_user);
+
                 }
-                Intent intent = new Intent(getApplicationContext(), perfil_usuario_1.class);
-                intent.putExtra("info_user", info_user);
-                startActivity(intent);
-                finish();
+                try {
+                    Intent intent = new Intent(getApplicationContext(), perfil_usuario_1.class);
+                    intent.putExtra("info_user", info_user);
+                    startActivity(intent);
+                    finish();
+
+                }catch (ConcurrentModificationException e){
+
+                }
+
             }
         };
 
@@ -306,7 +313,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println(databaseError.getMessage());
+
             }
         });
 

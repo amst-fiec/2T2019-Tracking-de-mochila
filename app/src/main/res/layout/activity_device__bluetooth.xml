@@ -8,11 +8,67 @@
     tools:context=".Activity.Device_Bluetooth">
 
     <Button
+        android:id="@+id/setDate"
+        android:layout_width="145dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button"
+        android:fontFamily="@font/bold"
+        android:text="Set Date"
+        android:textAllCaps="false"
+        android:textColor="@color/negro"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tiempo_ms" />
+
+    <EditText
+        android:id="@+id/distancia_max"
+        android:layout_width="175dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/input_file"
+        android:ems="10"
+        android:hint="Distancia [m]"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buscar" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="117dp"
+        android:layout_height="107dp"
+        android:background="@drawable/logo_transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </ImageView>
+
+    <EditText
+        android:id="@+id/tiempo_ms"
+        android:layout_width="179dp"
+        android:layout_height="53dp"
+        android:layout_marginEnd="26dp"
+        android:background="@drawable/input_file"
+        android:ems="10"
+        android:hint="Tiempo [ms]"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="@+id/distancia_max"
+        app:layout_constraintEnd_toStartOf="@+id/distancia_max"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/distancia_max"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
         android:id="@+id/buscar"
         android:layout_width="135dp"
         android:layout_height="33dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="244dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="180dp"
         android:background="@drawable/button"
         android:fontFamily="@font/bold"
         android:text="Buscar"
@@ -26,8 +82,8 @@
         android:id="@+id/conectar"
         android:layout_width="145dp"
         android:layout_height="33dp"
-        android:layout_marginStart="48dp"
-        android:layout_marginTop="244dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="180dp"
         android:background="@drawable/button"
         android:fontFamily="@font/bold"
         android:text="Conectar"
@@ -44,22 +100,24 @@
         android:layout_marginTop="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.594"
+        app:layout_constraintHorizontal_bias="0.643"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buscar"
-        app:layout_constraintVertical_bias="0.554" />
+        app:layout_constraintVertical_bias="0.732" />
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="375dp"
+        android:layout_height="121dp"
         android:fontFamily="@font/bold"
         android:text="Lista de Dispositivos"
+        android:textAlignment="center"
         android:textColor="@color/negro"
         android:textSize="45dp"
         app:layout_constraintBottom_toTopOf="@+id/buscar"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textAlignment="center"/>
+        app:layout_constraintVertical_bias="0.471" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,12 +32,16 @@ import java.util.Set;
 import java.util.UUID;
 
 
+import espol.edu.bagtraking.Modelo.Variables;
 import espol.edu.bagtraking.R;
 
 
 public class Device_Bluetooth extends AppCompatActivity {
     private Button search;
     private Button connect;
+    private EditText timems;
+    private EditText ditanciaMax;
+    private Button setData;
     private ListView listView;
     private BluetoothAdapter mBTAdapter;
     private static final int BT_ENABLE_REQUEST = 10;
@@ -60,7 +65,9 @@ public class Device_Bluetooth extends AppCompatActivity {
 
         search = (Button) findViewById(R.id.buscar);
         connect = (Button) findViewById(R.id.conectar);
-
+        setData = findViewById(R.id.setDate);
+        timems = findViewById(R.id.tiempo_ms);
+        ditanciaMax = findViewById(R.id.distancia_max);
         listView = (ListView) findViewById(R.id.lista);
 
         if (savedInstanceState != null) {
@@ -107,6 +114,30 @@ public class Device_Bluetooth extends AppCompatActivity {
                 intent.putExtra(DEVICE_UUID, mDeviceUUID.toString());
                 intent.putExtra(BUFFER_SIZE, mBufferSize);
                 startActivity(intent);
+            }
+        });
+        setData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(timems.getText().toString()!=""){
+                    try {
+                        Variables.INTERVALO_NOTIFICACION = Integer.parseInt(timems.getText().toString());
+                        Toast.makeText(Device_Bluetooth.this, "Tiempo seteado a "+timems.getText(), Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+
+                    }
+
+                }
+                if(ditanciaMax.getText().toString()!=""){
+                    try {
+                        Variables.MAXIMO_DISTANCIA = Double.parseDouble(ditanciaMax.getText().toString());
+                        Toast.makeText(Device_Bluetooth.this, "Distancia seteado a "+ditanciaMax.getText(), Toast.LENGTH_SHORT).show();
+                    }catch (Exception e){
+
+                    }
+
+                }
+
             }
         });
 

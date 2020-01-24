@@ -124,7 +124,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         StartThread();
         HiloNotificacions();
-        System.out.println("OnCreate......................................");
+
         return root;
     }
 
@@ -181,7 +181,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     @Override
     public void onResume() {
-        System.out.println("Onresume.....");
+
         if(child!=null){
             ref.removeEventListener(child);
         }
@@ -191,7 +191,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     @Override
     public void onDestroy() {
-        System.out.println("Ondestroy.....");
+
 
         super.onDestroy();
     }
@@ -201,7 +201,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
                 setMarker(dataSnapshot);
-                System.out.println("Actualiza Mapa.......................");
+
 
 
             }
@@ -222,7 +222,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             @Override
             public void onCancelled(DatabaseError error) {
                 Log.d(TAG, "Failed to read value.", error.toException());
-                System.out.println("Actualiza Error.......................");
+
             }
         };
        this.ref.addChildEventListener(child);
@@ -240,7 +240,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         Date date = new Date();
         DateFormat hourdateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
 
-        System.out.println(key);
+
         if (lat != 0 && lng != 0) {
             LatLng location = new LatLng(lat, lng);
             posiciones.add(location);
@@ -267,7 +267,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         Thread.sleep(5000);
                         while (posiciones.isEmpty()) {
                         }
-                        System.out.println("Print Base"+posiciones);
+                        LocationManager locationManager = (LocationManager) getContext().getSystemService(LOCATION_SERVICE);
+
+                        try {
+                            Location myLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                            if (myLocation != null) {
+                                Log.d("TAG", "Not null");
+                                location = myLocation;
+                            }
+                            else {
+                                Log.d("TAG", "NULL");
+                                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) getContext());
+                            }
+                        }
+                        catch (SecurityException se) {
+                            Log.d("TAG", "SE CAUGHT");
+                            se.printStackTrace();
+                        }
+
                         DISTANCIA = CalcularDistancia(posiciones.getLast().latitude, posiciones.getLast().longitude
                                 ,location.getLatitude(), location.getLongitude());
                         //toast.show();
@@ -310,7 +328,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         Thread.sleep(10000);
                         while (posiciones.isEmpty() && DISTANCIA != 0) {
                         }
-                        if (DISTANCIA >= 100d && Variables.RECIBIR_NOTIFICACION) {
+                        if (DISTANCIA >= Variables.MAXIMO_DISTANCIA && Variables.RECIBIR_NOTIFICACION) {
 
                             enviarDatos();
 
@@ -339,7 +357,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             jsonBody1.put("value", DISTANCIA);
             jsonBody.put("Distancia", jsonBody1);
 
-            System.out.println(jsonBody.toString());
+
 
 
             JsonObjectRequest request = new JsonObjectRequest
