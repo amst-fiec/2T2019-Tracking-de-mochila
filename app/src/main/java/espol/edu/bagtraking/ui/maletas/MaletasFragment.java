@@ -36,6 +36,7 @@ import java.util.HashMap;
 
 import espol.edu.bagtraking.Activity.perfil_usuario_1;
 import espol.edu.bagtraking.Modelo.Adapter;
+import espol.edu.bagtraking.Modelo.Variables;
 import espol.edu.bagtraking.R;
 import espol.edu.bagtraking.ui.grafica.GraficViewModel;
 import espol.edu.bagtraking.ui.map.MapFragment;
@@ -133,7 +134,11 @@ public class MaletasFragment extends Fragment {
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Toast.makeText(getActivity().getApplicationContext(),String.valueOf(position),Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getActivity().getApplicationContext(),String.valueOf(position),Toast.LENGTH_SHORT).show();
+                        Variables.ID_MALETA = String.valueOf(adapter.getItemId(position));
+                        Variables.RECIBIR_NOTIFICACION = false;
+                        MapFragment.DISTANCIA = 0;
+
                         FragmentManager fragmentManager = getFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         MapFragment inboxFragment = new MapFragment();

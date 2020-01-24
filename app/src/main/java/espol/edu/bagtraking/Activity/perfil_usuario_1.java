@@ -1,20 +1,33 @@
 package espol.edu.bagtraking.Activity;
 
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.telephony.SmsManager;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -37,8 +50,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import java.sql.SQLOutput;
 import java.text.DecimalFormat;
 import java.util.HashMap;
+import java.util.Random;
 
 import espol.edu.bagtraking.Modelo.Variables;
 import espol.edu.bagtraking.R;
@@ -50,24 +65,27 @@ import espol.edu.bagtraking.ui.tools.ToolsFragment;
 
 public class perfil_usuario_1 extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS =300 ;
     private DrawerLayout drawerLayout;
     private Toolbar toolbar;
 
     private AppBarConfiguration mAppBarConfiguration;
     private ImageView imv_photo;
     private TextView txt_name, txt_email;
+    private String phone;
     public static TextView text;
 
-    NotificationCompat.Builder notificacion;
-    private static final int idUnica = 51623;
+    private Thread thread;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_usuario_1);
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Variables.RECIBIR_NOTIFICACION = true;
         FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -117,9 +135,15 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
 
         txt_name.setText(info_user.get("user_name"));
         txt_email.setText(info_user.get("user_email"));
+        phone= info_user.get("user_phone");
         String photo = info_user.get("user_photo");
         System.out.println(info_user);
         Picasso.with(getApplicationContext()).load(photo).into(imv_photo);
+
+
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.SEND_SMS},
+                MY_PERMISSIONS_REQUEST_SEND_SMS);
 
         StartThread();
     }
@@ -127,20 +151,26 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
     @Override
     protected void onStart() {
         super.onStart();
-        notificacion = new NotificationCompat.Builder(this);
-        notificacion.setAutoCancel(true);
 
-        notificacion.setSmallIcon(R.mipmap.ic_launcher);
-        notificacion.setTicker("Nueva notificacion");
-        notificacion.setPriority(Notification.PRIORITY_HIGH);
-        notificacion.setWhen(System.currentTimeMillis());
-        notificacion.setContentTitle("Titulo");
-        notificacion.setContentText("Tutorial Antut Notificaciones");
 
-        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.notify(idUnica,notificacion.build());
+    }
 
-        System.out.println("Onstart perfil.....");
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        thread.stop();
+
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
     }
 
@@ -158,6 +188,7 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
         Intent intent = new Intent(this, LoginActivity.class);
         intent.putExtra("msg", "cerrarSesion");
         startActivity(intent);
+        thread.stop();
         finish();
     }
     @Override
@@ -204,20 +235,36 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
         return false;
     }
     public void StartThread(){
-        Thread thread = new Thread() {
+        thread = new Thread() {
             @Override
             public void run() {
 
                 while(true){
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(10000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                     text = findViewById(R.id.tag_distancia);
+
                     if(text!=null && MapFragment.Ready){
 
                         text.setText("Distancia Mochila: "+(new DecimalFormat("#.00").format(MapFragment.DISTANCIA))+"m");
+                        System.out.println("Enviando " + MapFragment.DISTANCIA);
+                        if(MapFragment.DISTANCIA>100 && Variables.RECIBIR_NOTIFICACION) {
+                            showNotification(" Alerta de Movimiento", "Su Maleta Se movio: " + (new DecimalFormat("#.00").format(MapFragment.DISTANCIA)));
+
+                            if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                                    Manifest.permission.SEND_SMS)
+                                    != PackageManager.PERMISSION_GRANTED) {
+                                return;
+                            }
+                            sendMessage(phone,"Mensaje de Prueba");
+
+
+
+
+                        }
                     }
 
                 }
@@ -228,7 +275,11 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
         thread.start();
     }
 
+    private void sendMessage(String numero, String sms){
+        SmsManager smsManager = SmsManager.getDefault();
+        smsManager.sendTextMessage(numero, null, sms, null, null);
 
+    }
 
 
     public void setFragment(int position) {
@@ -271,5 +322,21 @@ public class perfil_usuario_1 extends AppCompatActivity implements NavigationVie
                 fragmentTransaction.commit();
                 break;
         }
+    }
+
+    private void showNotification(String title, String body) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        String NOTIFICATION_CHANNEL_ID = "com.amst.firebasenotify.test";
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "Notification", NotificationManager.IMPORTANCE_DEFAULT);
+            notificationChannel.setDescription("EDMT Channel");
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.BLUE);
+            notificationChannel.setVibrationPattern(new long[]{0, 1000, 500, 1000});
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        notificationBuilder.setAutoCancel(true).setDefaults(Notification.DEFAULT_ALL).setWhen(System.currentTimeMillis()).setContentTitle(title).setContentText(body).setContentInfo("info").setSmallIcon(R.mipmap.ic_launcher);
+        notificationManager.notify(new Random().nextInt(), notificationBuilder.build());
     }
 }

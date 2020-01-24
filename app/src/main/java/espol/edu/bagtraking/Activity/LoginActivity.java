@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();/* Check if user is signed in (non-null) and update UI accordingly.*/
         if (Variables.HAY_INTERNET) {
-            FirebaseUser currentUser = this.currentUser;
+            FirebaseUser currentUser = mAuth.getCurrentUser();
             if (currentUser != null) {
                 getUser(info_user);
                 StartThread();
@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            FirebaseUser user =currentUser;
+                            FirebaseUser user =mAuth.getCurrentUser();
                             GuardadUsuario(info_user);
                             updateUI(user);
                             Toast.makeText(getApplicationContext(), "Bienvenido.. " + user.getDisplayName(), Toast.LENGTH_LONG).show();
@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void login(View view) {
         if (Variables.HAY_INTERNET) {
-            FirebaseUser user =currentUser;
+            FirebaseUser user =mAuth.getCurrentUser();
             if (user == null) {
                 signIn(email.getText().toString(), pass.getText().toString());
             }
@@ -209,7 +209,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
-                            FirebaseUser user = currentUser;
+                            FirebaseUser user = mAuth.getCurrentUser();
                             Toast.makeText(getApplicationContext(), "Bienvenido... ", Toast.LENGTH_LONG).show();
                             getUser(info_user);
                             StartThread();
@@ -282,10 +282,13 @@ public class LoginActivity extends AppCompatActivity {
 
     public void getUser(HashMap<String, String> info_user){
 
-
-        db_reference.child("Usuarios");
-        db_reference.child(currentUser.getUid());
-        db_reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        FirebaseUser user =mAuth.getCurrentUser();
+        if(user== null){
+            return;
+        }
+        FirebaseDatabase.getInstance().getReference().child("Aplicacion").child("Usuarios")
+        .child(user.getUid())
+        .addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -293,7 +296,7 @@ public class LoginActivity extends AppCompatActivity {
                 info_user.put("user_name",String.valueOf(dataSnapshot.child("user_name").getValue()));
                 info_user.put("user_email", String.valueOf(dataSnapshot.child("user_email").getValue()));
                 info_user.put("user_photo", String.valueOf(dataSnapshot.child("user_photo").getValue()));
-                info_user.put("user_id", currentUser.getUid());
+                info_user.put("user_id", user.getUid());
                 info_user.put("user_phone",String.valueOf(dataSnapshot.child("user_phone").getValue()));
 
 
@@ -309,7 +312,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }public void GuardadUsuario(HashMap<String, String> info_user) {
 
-        FirebaseUser user = currentUser;
+        FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             if (info_user == null) {
                 info_user = new HashMap<>();

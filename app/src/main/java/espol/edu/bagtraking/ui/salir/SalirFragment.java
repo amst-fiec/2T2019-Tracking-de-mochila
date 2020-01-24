@@ -38,6 +38,7 @@ public class SalirFragment extends Fragment {
     }
     public void cerrarSesion(){
         FirebaseAuth.getInstance().signOut();
+        Variables.RECIBIR_NOTIFICACION = false;
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         intent.putExtra("msg", "cerrarSesion");
         startActivity(intent);

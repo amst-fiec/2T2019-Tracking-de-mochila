@@ -60,7 +60,7 @@ public class Splash_Screen extends AppCompatActivity {
 
                     } else {
 
-                        getUser(currentUser);
+                        getUser(user);
                         StartThread();
                     }
                 }
